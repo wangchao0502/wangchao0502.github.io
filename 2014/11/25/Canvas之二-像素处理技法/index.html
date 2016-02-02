@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Canvas之二 像素处理技法 | Raphael Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="继续上一篇文章，这篇文章介绍通过Canvas对图片（Image对象）的像素处理方法，同样文章参考阮一峰前辈的Canvas API文档。
+作者也曾经玩过一年多的Ps，但是一直没有深入了解过图片处理的计算方法，这里也顺便复习一下，一些概念知识片面的带过，有时间再写文章专门讨论。
+正题
+其实，HTML5中通过Canvas处理图像只需要了解两个函数就够了，getImageData和putImageData">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Canvas之二 像素处理技法">
+<meta property="og:url" content="http://yoursite.com/2014/11/25/Canvas之二-像素处理技法/index.html">
+<meta property="og:site_name" content="Raphael Wang">
+<meta property="og:description" content="继续上一篇文章，这篇文章介绍通过Canvas对图片（Image对象）的像素处理方法，同样文章参考阮一峰前辈的Canvas API文档。
+作者也曾经玩过一年多的Ps，但是一直没有深入了解过图片处理的计算方法，这里也顺便复习一下，一些概念知识片面的带过，有时间再写文章专门讨论。
+正题
+其实，HTML5中通过Canvas处理图像只需要了解两个函数就够了，getImageData和putImageData">
+<meta property="og:image" content="http://yoursite.com/image/canvas-1.png">
+<meta property="og:updated_time" content="2016-01-25T15:14:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Canvas之二 像素处理技法">
+<meta name="twitter:description" content="继续上一篇文章，这篇文章介绍通过Canvas对图片（Image对象）的像素处理方法，同样文章参考阮一峰前辈的Canvas API文档。
+作者也曾经玩过一年多的Ps，但是一直没有深入了解过图片处理的计算方法，这里也顺便复习一下，一些概念知识片面的带过，有时间再写文章专门讨论。
+正题
+其实，HTML5中通过Canvas处理图像只需要了解两个函数就够了，getImageData和putImageData">
+  
+    <link rel="alternative" href="/atom.xml" title="Raphael Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Raphael Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">三生万物</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Canvas之二-像素处理技法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/25/Canvas之二-像素处理技法/" class="article-date">
+  <time datetime="2014-11-25T14:39:03.000Z" itemprop="datePublished">11月 25 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Canvas之二 像素处理技法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>继续上一篇文章，这篇文章介绍通过Canvas对图片（Image对象）的像素处理方法，同样文章参考阮一峰前辈的<a href="http://javascript.ruanyifeng.com/htmlapi/canvas.html" target="_blank" rel="external">Canvas API文档</a>。</p>
+<p>作者也曾经玩过一年多的Ps，但是一直没有深入了解过图片处理的计算方法，这里也顺便复习一下，一些概念知识片面的带过，有时间再写文章专门讨论。</p>
+<h2>正题</h2>
+<p>其实，HTML5中通过Canvas处理图像只需要了解两个函数就够了，<code>getImageData</code>和<code>putImageData</code>，前者是读取一个Canvas的内容，返回一个对象，我们取名imageDate，
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> imageData = context.getImageData(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br></pre></td></tr></table></figure></p>
+<p>其中的data属性，其实是一个一维数组，每四个值为一组[data[4k], data[4k+3]]，分别表示r，g，b光的三原色和Alpha通道（透明度），取值都是[0, 255]。</p>
+<p>后者是一个写方法，可以将数组内容重新绘制到Canvas中。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.putImageData(imageData, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>我们以下面的一张图片为例：</p>
+<p><img src="/image/canvas-1.png" alt="Canvas Pic 1"></p>
+<p>首先，我们要把图片插入到Canvas中。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.src = <span class="string">"/image/canvas-1.png"</span>;</span><br><span class="line">context.drawImage(img, <span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 设置对应的图像对象，以及它在画布上的位置</span></span><br></pre></td></tr></table></figure></p>
+<p>由于图像的载入需要时间，drawImage方法只能在图像完全载入后才能调用，因此上面的代码需要改写。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> image = <span class="keyword">new</span> Image(); </span><br><span class="line"></span><br><span class="line">image.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (image.width != canvas.width)</span><br><span class="line">        canvas.width = image.width;</span><br><span class="line">    <span class="keyword">if</span> (image.height != canvas.height)</span><br><span class="line">        canvas.height = image.height;</span><br><span class="line"></span><br><span class="line">    context.clearRect(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br><span class="line">    context.drawImage(image, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">image.src = <span class="string">"/image/canvas-1.png"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>drawImage()方法接受三个参数，第一个参数是图像文件的DOM元素（即img标签），第二个和第三个参数是图像左上角在Canvas元素中的坐标，上例中的（0, 0）就表示将图像左上角放置在Canvas元素的左上角。</p>
+<p>当我们把图片用画笔（context）绘制到画布上（Canvas），就可以用上边提到的getImageData方法获得图像的数据了。假设我们图像处理函数叫filter，那么整个处理过程如下：
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (canvas.width &gt; <span class="number">0</span> &amp;&amp; canvas.height &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> imageData = context.getImageData(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br><span class="line">    filter(imageData);</span><br><span class="line">    context.putImageData(imageData, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2>1. 灰度效果</h2>
+<h3>数学原理</h3>
+<p>灰度图（grayscale）就是取红、绿、蓝三个像素值的算术平均值，这实际上将图像转成了黑白形式。假定d[i]是像素数组中一个象素的红色值，则d[i+1]为绿色值，d[i+2]为蓝色值，d[i+3]就是alpha通道值。转成灰度的算法，就是将红、绿、蓝三个值相加后除以3，再将结果写回数组。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">grayscale = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> r = d[i];</span><br><span class="line">      <span class="keyword">var</span> g = d[i + <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">var</span> b = d[i + <span class="number">2</span>];</span><br><span class="line">      d[i] = d[i + <span class="number">1</span>] = d[i + <span class="number">2</span>] = (r+g+b)/<span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>2. 复古效果</h2>
+<h3>数学原理</h3>
+<p>复古效果（sepia）则是将红、绿、蓝三个像素，分别取这三个值的某种加权平均值，使得图像有一种古旧的效果。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sepia = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> r = d[i];</span><br><span class="line">      <span class="keyword">var</span> g = d[i + <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">var</span> b = d[i + <span class="number">2</span>];</span><br><span class="line">      d[i]     = (r * <span class="number">0.393</span>)+(g * <span class="number">0.769</span>)+(b * <span class="number">0.189</span>); <span class="comment">// red</span></span><br><span class="line">      d[i + <span class="number">1</span>] = (r * <span class="number">0.349</span>)+(g * <span class="number">0.686</span>)+(b * <span class="number">0.168</span>); <span class="comment">// green</span></span><br><span class="line">      d[i + <span class="number">2</span>] = (r * <span class="number">0.272</span>)+(g * <span class="number">0.534</span>)+(b * <span class="number">0.131</span>); <span class="comment">// blue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>3. 红色蒙版效果</h2>
+<h3>数学原理</h3>
+<p>红色蒙版指的是，让图像呈现一种偏红的效果。算法是将红色通道设为红、绿、蓝三个值的平均值，而将绿色通道和蓝色通道都设为0。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">red = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> r = d[i];</span><br><span class="line">      <span class="keyword">var</span> g = d[i + <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">var</span> b = d[i + <span class="number">2</span>];</span><br><span class="line">      d[i] = (r+g+b)/<span class="number">3</span>;        <span class="comment">// 红色通道取平均值</span></span><br><span class="line">      d[i + <span class="number">1</span>] = d[i + <span class="number">2</span>] = <span class="number">0</span>; <span class="comment">// 绿色通道和蓝色通道都设为0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>4. 亮度效果</h2>
+<h3>数学原理</h3>
+<p>亮度效果（brightness）是指让图像变得更亮或更暗。算法将红色通道、绿色通道、蓝色通道，同时加上一个正值或负值。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">brightness = <span class="function"><span class="keyword">function</span> (<span class="params">pixels, delta</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">          d[i] += delta;     <span class="comment">// red</span></span><br><span class="line">          d[i + <span class="number">1</span>] += delta; <span class="comment">// green</span></span><br><span class="line">          d[i + <span class="number">2</span>] += delta; <span class="comment">// blue   </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>5. 反转效果</h2>
+<h3>数学原理</h3>
+<p>反转效果（invert）是指图片呈现一种色彩颠倒的效果。算法为红、绿、蓝通道都取各自的相反值（255-原值）。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">invert = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">        d[i] = <span class="number">255</span> - d[i];</span><br><span class="line">        d[i+<span class="number">1</span>] = <span class="number">255</span> - d[i + <span class="number">1</span>];</span><br><span class="line">        d[i+<span class="number">2</span>] = <span class="number">255</span> - d[i + <span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>实例：
+&lt;div style=&quot;display: inline-block;&quot;&gt;&lt;button onclick=&quot;doBack();&quot;&gt;复原&lt;/button&gt;&lt;button onclick=&quot;doGrayscale();&quot;&gt;灰度效果&lt;/button&gt;&lt;button onclick=&quot;doSepia();&quot;&gt;复古效果&lt;/button&gt;&lt;button onclick=&quot;doRed();&quot;&gt;红色蒙版效果&lt;/button&gt;&lt;input text=&quot;text&quot; placeholder=&quot;亮度参数 -255 ~ 255&quot; id=&quot;delta&quot;&gt;&lt;button onclick=&quot;doBrightness();&quot;&gt;亮度效果&lt;/button&gt;&lt;button onclick=&quot;doInvert();&quot;&gt;反转效果&lt;/button&gt;&lt;/div&gt;&lt;canvas id=&quot;myCanvas&quot; width=&quot;1300&quot; height=&quot;400&quot;&gt;您的浏览器不支持canvas！&lt;/canvas&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+var image = new Image();
+var originImageData;
+var imageData;</p>
+<p>image.onload = function() {</p>
+<pre><code>if (image.width != canvas.width)
+    canvas.width = image.width;
+if (image.height != canvas.height)
+    canvas.height = image.height;
+
+context.clearRect(0, 0, canvas.width, canvas.height);
+context.drawImage(image, 0, 0);
+originImageData = context.getImageData(0, 0, canvas.width, canvas.height);
+</code></pre>
+<p>}
+image.src = &quot;/image/canvas-1.png&quot;;</p>
+<p>function doWhat(filter, delta) {
+	if (canvas.width &gt; 0 &amp;&amp; canvas.height &gt; 0) {
+	imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+	delta ? filter(imageData, delta) : filter(imageData);
+	context.putImageData(imageData, 0, 0);
+	}
+}</p>
+<p>function doBack() {
+	if (canvas.width &gt; 0 &amp;&amp; canvas.height &gt; 0) {
+	context.putImageData(originImageData, 0, 0);
+	}
+}</p>
+<p>var grayscale = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+var r = d[i];
+var g = d[i + 1];
+var b = d[i + 2];
+d[i] = d[i + 1] = d[i + 2] = (r+g+b)/3;
+}
+return pixels;
+};</p>
+<p>var sepia = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+var r = d[i];
+var g = d[i + 1];
+var b = d[i + 2];
+d[i]     = (r * 0.393)+(g * 0.769)+(b * 0.189); // red
+d[i + 1] = (r * 0.349)+(g * 0.686)+(b * 0.168); // green
+d[i + 2] = (r * 0.272)+(g * 0.534)+(b * 0.131); // blue
+}
+return pixels;
+};</p>
+<p>var red = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+var r = d[i];
+var g = d[i + 1];
+var b = d[i + 2];
+d[i] = (r+g+b)/3;        // 红色通道取平均值
+d[i + 1] = d[i + 2] = 0; // 绿色通道和蓝色通道都设为0
+}
+return pixels;
+};</p>
+<p>var brightness = function (pixels, delta) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+d[i] += delta;     // red
+d[i + 1] += delta; // green
+d[i + 2] += delta; // blue<br>
+}
+return pixels;
+};</p>
+<p>var invert = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+d[i] = 255 - d[i];
+d[i+1] = 255 - d[i + 1];
+d[i+2] = 255 - d[i + 2];
+}
+return pixels;
+};</p>
+<p>function doGrayscale() {
+	doWhat(grayscale);
+}</p>
+<p>function doSepia() {
+	doWhat(sepia);
+}</p>
+<p>function doRed() {
+	doWhat(red);
+}</p>
+<p>function doBrightness() {
+	var delta = parseInt(document.getElementById(&quot;delta&quot;).value, 10);
+	doWhat(brightness, delta);
+}</p>
+<p>function doInvert() {
+	doWhat(invert);
+}</p>
+<p>&lt;/script&gt;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/11/25/Canvas之二-像素处理技法/" data-id="cik4ygpl9001etnupef64njf2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图像处理/">图像处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/27/Canvas之三-康威生命游戏1号/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Canvas之三 康威生命游戏1号
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/25/Canvas之一-旋转的太极/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Canvas之一 旋转的太极</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/其它/" style="font-size: 13.33px;">其它</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/图像处理/" style="font-size: 10px;">图像处理</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/02/02/reset-mysql-default-password/">修改最新版本Mysql默认密码(v5.7.10)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/02/sublime-plugin-development/">如何开发Sublime插件</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/25/javascript-this/">对于javascript关键字this的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/23/FE-knowledge-entrence/">前端知识大汇总</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/07/追赶时间的脚步/">追赶时间的脚步</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Wang Chao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

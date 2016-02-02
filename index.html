@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Raphael Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从国内最好的财经类院校走出的程序员，致力于唱好每一首歌，写好每一行代码。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Raphael Wang">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Raphael Wang">
+<meta property="og:description" content="从国内最好的财经类院校走出的程序员，致力于唱好每一首歌，写好每一行代码。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Raphael Wang">
+<meta name="twitter:description" content="从国内最好的财经类院校走出的程序员，致力于唱好每一首歌，写好每一行代码。">
+  
+    <link rel="alternative" href="/atom.xml" title="Raphael Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Raphael Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">三生万物</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-reset-mysql-default-password" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/02/reset-mysql-default-password/" class="article-date">
+  <time datetime="2016-02-02T05:18:17.000Z" itemprop="datePublished">2月 2 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/02/reset-mysql-default-password/">修改最新版本Mysql默认密码(v5.7.10)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MySql版本: v5.7.10</p>
+<h2>Step1</h2>
+<p>安装mysql，加入PATH。</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; vim ~/.zshrc</span><br></pre></td></tr></table></figure></p>
+<p>修改如下内容：注意路径中间用<code>:</code>隔开
+export PATH=&quot;/usr/local/other_path:/usr/local/mysql/bin/:$PATH&quot;</p>
+<h2>Step2</h2>
+<p>在系统偏好，最下面的mysql中点击<code>Stop MySql Server</code>按钮，关闭mysql后台进程</p>
+<h2>Step3</h2>
+<p>跳过mysql权限认证机制</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo mysqld_safe --user=mysql --skip-grant-tables --skip-networking</span><br></pre></td></tr></table></figure></p>
+<p>启动了mysql的安全模式，可以打开新的命令行窗口进入mysql</p>
+<h2>Step4</h2>
+<p>登录mysql，修改密码</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql</span><br><span class="line">&gt; use user;</span><br><span class="line">&gt; update user <span class="built_in">set</span> authentication_string=password(<span class="string">'123456'</span>) <span class="built_in">where</span> user=<span class="string">'root'</span>;</span><br><span class="line">&gt; flush privileges;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p>注：mysql5.7以后用户的password字段名变成了authentication_string，这点很坑。</p>
+<h2>Step5</h2>
+<p>关闭相关进程，重新登陆mysql</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; ps -A | grep mysql</span><br><span class="line"><span class="number">2004</span> ttys000    <span class="number">0</span>:<span class="number">00.00</span> grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn mysql</span><br><span class="line"><span class="number">1733</span> ttys001    <span class="number">0</span>:<span class="number">00.02</span> sudo mysqld_safe --user=mysql --skip-grant-tables --skip-networking</span><br><span class="line"><span class="number">1735</span> ttys001    <span class="number">0</span>:<span class="number">00.02</span> /bin/sh /usr/<span class="built_in">local</span>/mysql/bin//mysqld_safe --user=mysql --skip-grant-tables --skip-networking</span><br><span class="line"><span class="number">1846</span> ttys001    <span class="number">0</span>:<span class="number">00.37</span> /usr/<span class="built_in">local</span>/mysql/bin/mysqld --basedir=/usr/<span class="built_in">local</span>/mysql --datadir=/usr/<span class="built_in">local</span>/mysql/data --plugin-dir=/usr/<span class="built_in">local</span>/mysql/lib/plugin --user=mysql --skip-grant-tables --skip-networking --log-error=/usr/<span class="built_in">local</span>/mysql/data/wangchaoyouzancomdeMacBook-Pro.local.err --pid-file=/usr/<span class="built_in">local</span>/mysql/data/wangchaoyouzancomdeMacBook-Pro.local.pid</span><br><span class="line">&gt; sudo <span class="built_in">kill</span> -<span class="number">9</span> <span class="number">2004</span> <span class="number">1733</span> <span class="number">1735</span> <span class="number">1846</span></span><br></pre></td></tr></table></figure></p>
+<p>重新在系统偏好的Mysql中启动mysql</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line"><span class="number">123456</span></span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is <span class="number">39</span></span><br><span class="line">Server version: <span class="number">5.7</span>.<span class="number">10</span></span><br><span class="line"></span><br><span class="line">Copyright (c) <span class="number">2000</span>, <span class="number">2015</span>, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></p>
+<h2>Step6</h2>
+<p>客户端用root用户登录失败提示如下内容：</p>
+<blockquote>
+<p>Your password has expired. To log in you must change it using a client that supports expired passwords.
+-- Navicat Premium for MySql</p>
+</blockquote>
+<blockquote>
+<p>You must reset your password using ALTER USER statement before executing this statement.
+-- MySql Workbentch</p>
+</blockquote>
+<p>其中workbentch会自动跳出新窗口让你重置密码。
+Navicat不会弹出窗口就用命令行的方式重置：</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql&gt; alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'admin'</span> password expire never;</span><br><span class="line">mysql&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="http://dev.mysql.com/doc/refman/5.7/en/alter-user.html" target="_blank" rel="external">官方Alter User文档</a></p>
+<p>密码的过期策略有四种选项</p>
+<ol>
+<li>EXPIRE 过期</li>
+<li>EXPIRE DEFAULT 过期</li>
+<li>EXPIRE NEVER 永不过期</li>
+<li>EXPIRE INTERVAL N DAY n天后过期</li>
+</ol>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">password_option: &#123;</span><br><span class="line">	PASSWORD EXPIRE</span><br><span class="line">	| PASSWORD EXPIRE DEFAULT</span><br><span class="line">	| PASSWORD EXPIRE NEVER</span><br><span class="line">	| PASSWORD EXPIRE INTERVAL N DAY</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在navicat中修改连接密码，即可连接成功。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/02/reset-mysql-default-password/" data-id="cik4ygpku000vtnupz85spl23" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mysql/">Mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/其它/">其它</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sublime-plugin-development" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/02/sublime-plugin-development/" class="article-date">
+  <time datetime="2016-02-02T04:42:29.000Z" itemprop="datePublished">2月 2 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/02/sublime-plugin-development/">如何开发Sublime插件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2>Sublime自带配置功能</h2>
+<h3>.sublime-settings</h3>
+<p>JSON格式，供插件或sublime调用的配置文件。例如Preferences.sublime-settings(sublime的全局配置)，WakaTime.sublime-settings(插件的配置和信息，例如api_key)</p>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"color_scheme"</span>: <span class="string">"Packages/Devastate/Devastate.tmTheme"</span>,</span><br><span class="line">	<span class="string">"font_size"</span>: <span class="number">12</span>,</span><br><span class="line">	<span class="string">"ignored_packages"</span>:</span><br><span class="line">	[</span><br><span class="line">		<span class="string">"Vintage"</span></span><br><span class="line">	],</span><br><span class="line">	<span class="string">"theme"</span>: <span class="string">"Centurion.sublime-theme"</span>,</span><br><span class="line">	<span class="string">"word_wrap"</span>: <span class="literal">true</span>,</span><br><span class="line">	<span class="string">"wrap_width"</span>: <span class="number">120</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"api_key"</span>: <span class="string">"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3>.sublime-completions</h3>
+<p>输入自动提示，自动补全功能
+插件实例：Bootstrap 3 Snippets, Javascript Completions</p>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"scope"</span>: <span class="string">"source.js"</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">"completions"</span>:</span><br><span class="line">  [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"trigger"</span>: <span class="string">"new Date()\tDate"</span>,</span><br><span class="line">      <span class="string">"contents"</span>: <span class="string">"new Date()"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"trigger"</span>: <span class="string">"length\tDate"</span>,</span><br><span class="line">      <span class="string">"contents"</span>: <span class="string">"length"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"trigger"</span>: <span class="string">"valueOf()\tDate"</span>,</span><br><span class="line">      <span class="string">"contents"</span>: <span class="string">"valueOf()"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"scope"</span>: <span class="string">"source.js"</span>,</span><br><span class="line">	<span class="string">"completions"</span>: [</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="string">"trigger"</span>: <span class="string">"description-Date"</span>,</span><br><span class="line">			<span class="string">"contents"</span>: <span class="string">"/*\n\tDescription:\n\tCreates a JavaScript Date instance that represents a single moment in time. Date objects are based on a time value that is the number of milliseconds since 1 January, 1970 UTC.\n\n\tSyntax:\n\tnew Date();\n\tnew Date(value);\n\tnew Date(dateString);\n\tnew Date(year, month, day, hour, minute, second, millisecond);\n*/"</span></span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="string">"trigger"</span>: <span class="string">"description-Date.now()"</span>,</span><br><span class="line">			<span class="string">"contents"</span>: <span class="string">"/*\n\tDescription:\n\tThe Date.now() method returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.\n\n\tSyntax:\n\tvar timeInMs = Date.now();\n*/"</span></span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3>.sublime-snippets</h3>
+<p>代码自动补全，但是没有提示框。文件支持XML的CDATA格式。</p>
+<p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">snippet</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">content</span>&gt;</span><span class="cdata">&lt;![CDATA[</span><br><span class="line">&lt;form action="$&#123;1&#125;" method="$&#123;2:POST&#125;" class="form-inline" role="form"&gt;</span><br><span class="line"></span><br><span class="line">	$&#123;3:&lt;div class="form-group"&gt;</span><br><span class="line">		&lt;label class="sr-only" for=""&gt;label&lt;/label&gt;</span><br><span class="line">		&lt;input type="email" class="form-control" id="" placeholder="Input field"&gt;</span><br><span class="line">	&lt;/div&gt;&#125;</span><br><span class="line"></span><br><span class="line">	$&#123;0&#125;</span><br><span class="line"></span><br><span class="line">	&lt;button type="submit" class="btn btn-primary"&gt;$&#123;4:Submit&#125;&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">]]&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">tabTrigger</span>&gt;</span>bs3-form:inline<span class="tag">&lt;/<span class="title">tabTrigger</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">snippet</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>注：.sublime-completions文件和.sublime-snippets文件都不支持生成动态内容。比如在我的snippets插入当前时间。如果想要插入动态内容请使用这个插件：<a href="https://github.com/BoundInCode/SMART-Snippets" target="_blank" rel="external">Smart Snippets</a></p>
+<h3>.sublime-commands</h3>
+<p>声明commands，一个command对应一个python class
+args对应这个class中run方法的参数</p>
+<p>这个command可以在.sublime-keymap中引用，来定义快捷键
+也可以直接在sublime的console中执行 <code>control + `</code> view.run_command('')</p>
+<p><strong>Sublime提供了三种类型的command</strong></p>
+<ul>
+<li>Text Commands提供了对当前View对象(就是正在编辑的文件)内容的访问。</li>
+<li>Window Commands提供里对当前编辑器Window对象的引用。</li>
+<li>Application Commands不提供对任何window或者文件的引用，而且也很少用到。</li>
+</ul>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"caption"</span>: <span class="string">"Emmet: Expand Abbreviation"</span>,</span><br><span class="line">		<span class="string">"command"</span>: <span class="string">"run_emmet_action"</span>,</span><br><span class="line">		<span class="string">"args"</span>: &#123;</span><br><span class="line">			<span class="string">"action"</span>: <span class="string">"expand_abbreviation"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"caption"</span>: <span class="string">"Emmet: Wrap With Abbreviation"</span>,</span><br><span class="line">		<span class="string">"command"</span>: <span class="string">"wrap_as_you_type"</span></span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"caption"</span>: <span class="string">"Emmet: Balance (outward)"</span>,</span><br><span class="line">		<span class="string">"command"</span>: <span class="string">"run_emmet_action"</span>,</span><br><span class="line">		<span class="string">"args"</span>: &#123;</span><br><span class="line">			<span class="string">"action"</span>: <span class="string">"balance_outward"</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3>.sublime-keymap</h3>
+<p>sublime快捷键设置。例如Default (OSX).sublime-keymap</p>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123; <span class="string">"keys"</span>: [<span class="string">"f5"</span>], <span class="string">"command"</span>: <span class="string">"add_time"</span> &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3>.sublime-menu</h3>
+<p>自定义菜单</p>
+<ul>
+<li>Main.sublime-menu 顶部菜单</li>
+<li>Side Bar.sublime-menu 右键操作左侧Side Bar菜单</li>
+<li>Context.sublime-menu 右键操作文件菜单</li>
+</ul>
+<p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"caption"</span>: <span class="string">"Preferences"</span>,</span><br><span class="line">        <span class="string">"mnemonic"</span>: <span class="string">"n"</span>,</span><br><span class="line">        <span class="string">"id"</span>: <span class="string">"preferences"</span>,</span><br><span class="line">        <span class="string">"children"</span>:</span><br><span class="line">        [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"caption"</span>: <span class="string">"WakaTime"</span>,</span><br><span class="line">                <span class="string">"mnemonic"</span>: <span class="string">"W"</span>,</span><br><span class="line">                <span class="string">"id"</span>: <span class="string">"wakatime-settings"</span>,</span><br><span class="line">                <span class="string">"children"</span>:</span><br><span class="line">                [</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="string">"command"</span>: <span class="string">"open_file"</span>, <span class="string">"args"</span>:</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="string">"file"</span>: <span class="string">"$&#123;packages&#125;/WakaTime/WakaTime.sublime-settings"</span></span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"caption"</span>: <span class="string">"Settings – Default"</span></span><br><span class="line">                    &#125;,</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="string">"command"</span>: <span class="string">"open_file"</span>, <span class="string">"args"</span>:</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="string">"file"</span>: <span class="string">"$&#123;packages&#125;/User/WakaTime.sublime-settings"</span></span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">"caption"</span>: <span class="string">"Settings – User"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h2>Sublime插件开发</h2>
+<p><strong>Examples</strong></p>
+<ul>
+<li>delete_word.py Deletes a word to the left or right of the cursor</li>
+<li>duplicate_line.py Duplicates the current line</li>
+<li>goto_line.py Prompts the user for input, then updates the selection</li>
+<li>font.py Shows how to work with settings</li>
+<li>mark.py Uses add_regions() to add an icon to the gutter</li>
+<li>trim_trailing_whitespace.py Modifies a buffer just before its saved</li>
+</ul>
+<h3>delete_word.py</h3>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime, sublime_plugin</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clamp</span><span class="params">(xmin, x, xmax)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> x &lt; xmin:</span><br><span class="line">        <span class="keyword">return</span> xmin</span><br><span class="line">    <span class="keyword">if</span> x &gt; xmax:</span><br><span class="line">        <span class="keyword">return</span> xmax</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DeleteWordCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">find_by_class</span><span class="params">(self, pt, classes, forward)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> forward:</span><br><span class="line">            delta = <span class="number">1</span></span><br><span class="line">            end_position = self.view.size()</span><br><span class="line">            <span class="keyword">if</span> pt &gt; end_position:</span><br><span class="line">                pt = end_position</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            delta = -<span class="number">1</span></span><br><span class="line">            end_position = <span class="number">0</span></span><br><span class="line">            <span class="keyword">if</span> pt &lt; end_position:</span><br><span class="line">                pt = end_position</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> pt != end_position:</span><br><span class="line">            <span class="keyword">if</span> self.view.classify(pt) &amp; classes != <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> pt</span><br><span class="line">            pt += delta</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> pt</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">expand_word</span><span class="params">(self, view, pos, classes, forward)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> forward:</span><br><span class="line">            delta = <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            delta = -<span class="number">1</span></span><br><span class="line">        ws = [<span class="string">"\t"</span>, <span class="string">" "</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> forward:</span><br><span class="line">            <span class="keyword">if</span> view.substr(pos) <span class="keyword">in</span> ws <span class="keyword">and</span> view.substr(pos + <span class="number">1</span>) <span class="keyword">in</span> ws:</span><br><span class="line">                classes = sublime.CLASS_WORD_START | sublime.CLASS_PUNCTUATION_START | sublime.CLASS_LINE_END</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> view.substr(pos - <span class="number">1</span>) <span class="keyword">in</span> ws <span class="keyword">and</span> view.substr(pos - <span class="number">2</span>) <span class="keyword">in</span> ws:</span><br><span class="line">                classes = sublime.CLASS_WORD_END | sublime.CLASS_PUNCTUATION_END | sublime.CLASS_LINE_START</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sublime.Region(pos, self.find_by_class(pos + delta, classes, forward))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit, forward = True, sub_words = False)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> forward:</span><br><span class="line">            classes = sublime.CLASS_WORD_END | sublime.CLASS_PUNCTUATION_END | sublime.CLASS_LINE_START</span><br><span class="line">            <span class="keyword">if</span> sub_words:</span><br><span class="line">                classes |= sublime.CLASS_SUB_WORD_END</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            classes = sublime.CLASS_WORD_START | sublime.CLASS_PUNCTUATION_START | sublime.CLASS_LINE_END | sublime.CLASS_LINE_START</span><br><span class="line">            <span class="keyword">if</span> sub_words:</span><br><span class="line">                classes |= sublime.CLASS_SUB_WORD_START</span><br><span class="line"></span><br><span class="line">        new_sels = []</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> reversed(self.view.sel()):</span><br><span class="line">            <span class="keyword">if</span> s.empty():</span><br><span class="line">                new_sels.append(self.expand_word(self.view, s.b, classes, forward))</span><br><span class="line"></span><br><span class="line">        sz = self.view.size()</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> new_sels:</span><br><span class="line">            self.view.sel().add(sublime.Region(clamp(<span class="number">0</span>, s.a, sz),</span><br><span class="line">                clamp(<span class="number">0</span>, s.b, sz)))</span><br><span class="line"></span><br><span class="line">        self.view.run_command(<span class="string">"add_to_kill_ring"</span>, &#123;<span class="string">"forward"</span>: forward&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> forward:</span><br><span class="line">            self.view.run_command(<span class="string">'right_delete'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.view.run_command(<span class="string">'left_delete'</span>)</span><br></pre></td></tr></table></figure></p>
+<h3>duplicate_line.py</h3>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime, sublime_plugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DuplicateLineCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> region <span class="keyword">in</span> self.view.sel():</span><br><span class="line">            <span class="keyword">if</span> region.empty():</span><br><span class="line">                line = self.view.line(region)</span><br><span class="line">                line_contents = self.view.substr(line) + <span class="string">'\n'</span></span><br><span class="line">                self.view.insert(edit, line.begin(), line_contents)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.view.insert(edit, region.begin(), self.view.substr(region))</span><br></pre></td></tr></table></figure></p>
+<h3>goto_line.py</h3>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime, sublime_plugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PromptGotoLineCommand</span><span class="params">(sublime_plugin.WindowCommand)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.window.show_input_panel(<span class="string">"Goto Line:"</span>, <span class="string">""</span>, self.on_done, <span class="keyword">None</span>, <span class="keyword">None</span>)</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_done</span><span class="params">(self, text)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            line = int(text)</span><br><span class="line">            <span class="keyword">if</span> self.window.active_view():</span><br><span class="line">                self.window.active_view().run_command(<span class="string">"goto_line"</span>, &#123;<span class="string">"line"</span>: line&#125; )</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GotoLineCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit, line)</span>:</span></span><br><span class="line">        <span class="comment"># Convert from 1 based to a 0 based line number</span></span><br><span class="line">        line = int(line) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Negative line numbers count from the end of the buffer</span></span><br><span class="line">        <span class="keyword">if</span> line &lt; <span class="number">0</span>:</span><br><span class="line">            lines, _ = self.view.rowcol(self.view.size())</span><br><span class="line">            line = lines + line + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        pt = self.view.text_point(line, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        self.view.sel().clear()</span><br><span class="line">        self.view.sel().add(sublime.Region(pt))</span><br><span class="line"></span><br><span class="line">        self.view.show(pt)</span><br></pre></td></tr></table></figure></p>
+<h3>font.py</h3>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime, sublime_plugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IncreaseFontSizeCommand</span><span class="params">(sublime_plugin.ApplicationCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        s = sublime.load_settings(<span class="string">"Preferences.sublime-settings"</span>)</span><br><span class="line">        current = s.get(<span class="string">"font_size"</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> current &gt;= <span class="number">36</span>:</span><br><span class="line">            current += <span class="number">4</span></span><br><span class="line">        <span class="keyword">elif</span> current &gt;= <span class="number">24</span>:</span><br><span class="line">            current += <span class="number">2</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            current += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> current &gt; <span class="number">128</span>:</span><br><span class="line">            current = <span class="number">128</span></span><br><span class="line">        s.set(<span class="string">"font_size"</span>, current)</span><br><span class="line"></span><br><span class="line">        sublime.save_settings(<span class="string">"Preferences.sublime-settings"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecreaseFontSizeCommand</span><span class="params">(sublime_plugin.ApplicationCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        s = sublime.load_settings(<span class="string">"Preferences.sublime-settings"</span>)</span><br><span class="line">        current = s.get(<span class="string">"font_size"</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="comment"># current -= 1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> current &gt;= <span class="number">40</span>:</span><br><span class="line">            current -= <span class="number">4</span></span><br><span class="line">        <span class="keyword">elif</span> current &gt;= <span class="number">26</span>:</span><br><span class="line">            current -= <span class="number">2</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            current -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> current &lt; <span class="number">8</span>:</span><br><span class="line">            current = <span class="number">8</span></span><br><span class="line">        s.set(<span class="string">"font_size"</span>, current)</span><br><span class="line"></span><br><span class="line">        sublime.save_settings(<span class="string">"Preferences.sublime-settings"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResetFontSizeCommand</span><span class="params">(sublime_plugin.ApplicationCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        s = sublime.load_settings(<span class="string">"Preferences.sublime-settings"</span>)</span><br><span class="line">        s.erase(<span class="string">"font_size"</span>)</span><br><span class="line"></span><br><span class="line">        sublime.save_settings(<span class="string">"Preferences.sublime-settings"</span>)</span><br></pre></td></tr></table></figure></p>
+<h3>mark.py</h3>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime, sublime_plugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SetMarkCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        mark = [s <span class="keyword">for</span> s <span class="keyword">in</span> self.view.sel()]</span><br><span class="line">        self.view.add_regions(<span class="string">"mark"</span>, mark, <span class="string">"mark"</span>, <span class="string">"dot"</span>,</span><br><span class="line">            sublime.HIDDEN | sublime.PERSISTENT)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SwapWithMarkCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        old_mark = self.view.get_regions(<span class="string">"mark"</span>)</span><br><span class="line"></span><br><span class="line">        mark = [s <span class="keyword">for</span> s <span class="keyword">in</span> self.view.sel()]</span><br><span class="line">        self.view.add_regions(<span class="string">"mark"</span>, mark, <span class="string">"mark"</span>, <span class="string">"dot"</span>,</span><br><span class="line">            sublime.HIDDEN | sublime.PERSISTENT)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> len(old_mark):</span><br><span class="line">            self.view.sel().clear()</span><br><span class="line">            <span class="keyword">for</span> r <span class="keyword">in</span> old_mark:</span><br><span class="line">                self.view.sel().add(r)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SelectToMarkCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        mark = self.view.get_regions(<span class="string">"mark"</span>)</span><br><span class="line"></span><br><span class="line">        num = min(len(mark), len(self.view.sel()))</span><br><span class="line"></span><br><span class="line">        regions = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">            regions.append(self.view.sel()[i].cover(mark[i]))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(num, len(self.view.sel())):</span><br><span class="line">            regions.append(self.view.sel()[i])</span><br><span class="line"></span><br><span class="line">        self.view.sel().clear()</span><br><span class="line">        <span class="keyword">for</span> r <span class="keyword">in</span> regions:</span><br><span class="line">            self.view.sel().add(r)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DeleteToMark</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        self.view.run_command(<span class="string">"select_to_mark"</span>)</span><br><span class="line">        self.view.run_command(<span class="string">"add_to_kill_ring"</span>, &#123;<span class="string">"forward"</span>: <span class="keyword">False</span>&#125;)</span><br><span class="line">        self.view.run_command(<span class="string">"left_delete"</span>)</span><br></pre></td></tr></table></figure></p>
+<h3>trim_trailing_whitespace.py</h3>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sublime, sublime_plugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TrimTrailingWhiteSpaceCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        trailing_white_space = self.view.find_all(<span class="string">"[\t ]+$"</span>)</span><br><span class="line">        trailing_white_space.reverse()</span><br><span class="line">        <span class="keyword">for</span> r <span class="keyword">in</span> trailing_white_space:</span><br><span class="line">            self.view.erase(edit, r)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TrimTrailingWhiteSpace</span><span class="params">(sublime_plugin.EventListener)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_pre_save</span><span class="params">(self, view)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> view.settings().get(<span class="string">"trim_trailing_white_space_on_save"</span>) == <span class="keyword">True</span>:</span><br><span class="line">            view.run_command(<span class="string">"trim_trailing_white_space"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EnsureNewlineAtEofCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.view.size() &gt; <span class="number">0</span> <span class="keyword">and</span> self.view.substr(self.view.size() - <span class="number">1</span>) != <span class="string">'\n'</span>:</span><br><span class="line">            self.view.insert(edit, self.view.size(), <span class="string">"\n"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EnsureNewlineAtEof</span><span class="params">(sublime_plugin.EventListener)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_pre_save</span><span class="params">(self, view)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> view.settings().get(<span class="string">"ensure_newline_at_eof_on_save"</span>) == <span class="keyword">True</span>:</span><br><span class="line">            <span class="keyword">if</span> view.size() &gt; <span class="number">0</span> <span class="keyword">and</span> view.substr(view.size() - <span class="number">1</span>) != <span class="string">'\n'</span>:</span><br><span class="line">                view.run_command(<span class="string">"ensure_newline_at_eof"</span>)</span><br></pre></td></tr></table></figure></p>
+<h3>第三方Javascript支持</h3>
+<p><a href="https://github.com/75team/SublimeJS" target="_blank" rel="external">SublimeJs</a></p>
+<h2>插件提交到Package Control</h2>
+<ol>
+<li>插件的代码需要托管到Github／Bitbucket上，或者支持ssl的服务器。一下我们默认托管到了Github上。</li>
+<li>需要有一个Tag，这个tag要符合semantic规范。为了显得我们的专业比较成熟，我没有使用v0.0.1而是v1.0.0。</li>
+<li>需要fork一份sublime的官方代码<a href="https://github.com/wbond/package_control_channel" target="_blank" rel="external">wbond/package_control_channel</a>。</li>
+<li>修改里边的一个json文件，把我们的插件信息写进去。注意：用tab而不是空格缩紧，否则会不通过。</li>
+<li>提交一个pull-request。</li>
+<li>等待通过审核。</li>
+</ol>
+<h2>Links</h2>
+<ul>
+<li><a href="http://docs.sublimetext.info/en/latest/index.html" target="_blank" rel="external">Sublime Text Unofficial Documentation</a></li>
+<li><a href="http://www.sublimetext.com/docs/3/index.html" target="_blank" rel="external">Sublime Text 3 Documentation</a></li>
+<li><a href="http://www.sublimetext.com/docs/3/api_reference.html" target="_blank" rel="external">Sublime Api Reference</a></li>
+<li><a href="https://packagecontrol.io/docs/submitting_a_package#Step_8" target="_blank" rel="external">Submitting a package</a></li>
+<li><a href="https://packagecontrol.io" target="_blank" rel="external">Package Control</a></li>
+<li><a href="https://github.com/75team/SublimeJS" target="_blank" rel="external">SublimeJs</a></li>
+<li><a href="https://travis-ci.com" target="_blank" rel="external">Travis CI持续集成</a></li>
+<li><a href="http://mux.alimama.com/posts/549" target="_blank" rel="external">阿里妈妈翻译的Sublime API文档</a></li>
+<li><a href="https://github.com/wangchao0502/MatrixList-Snippets" target="_blank" rel="external">自己开发的sublime插件</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/02/sublime-plugin-development/" data-id="cik4ygpkr000qtnup48zydw9i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sublime/">Sublime</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/其它/">其它</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-javascript-this" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/25/javascript-this/" class="article-date">
+  <time datetime="2015-11-25T13:14:13.000Z" itemprop="datePublished">11月 25 2015</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/25/javascript-this/">对于javascript关键字this的理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天上班时候突然接到了面试电话，然后在环境很不好的情况下被问到了this问题，之前以为自己理解的还可以，但是当面对真正的考验的时候还是表现的不尽如人意。于是今天下班回家，痛定思痛，重新复习一下javascript中非常重要的基础概念——关键字<code>this</code>。</p>
+<h2>What is <code>this</code>?</h2>
+<p>简单说this就是函数当前的运行环境，但是难点就在于<strong>运行环境</strong>是可以变的。
+例如下面一个例题：</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"Bob"</span>;  </span><br><span class="line"><span class="keyword">var</span> nameObj =&#123;  </span><br><span class="line">    name : <span class="string">"Tom"</span>,  </span><br><span class="line">    showName : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </span><br><span class="line">        alert(<span class="keyword">this</span>.name);  </span><br><span class="line">    &#125;,  </span><br><span class="line">    waitShowName : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </span><br><span class="line">        setTimeout(<span class="keyword">this</span>.showName, <span class="number">1000</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line"></span><br><span class="line">nameObj.waitShowName();</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> subway=&#123;</span><br><span class="line">     name:<span class="string">'1号线'</span>,</span><br><span class="line">     speed:<span class="number">0</span>,</span><br><span class="line">     run:<span class="function"><span class="keyword">function</span>(<span class="params">speed</span>)</span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.speed=speed;  <span class="comment">//绑定到对象本身</span></span><br><span class="line">         <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">speed</span>)</span>&#123;</span><br><span class="line">             <span class="keyword">this</span>.speed=speed+<span class="number">50</span>;<span class="comment">//竟然绑定到全局变量了，真是匪夷所思啊</span></span><br><span class="line">         &#125;</span><br><span class="line">         test(speed);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;;</span><br><span class="line"> subway.run(<span class="number">100</span>);</span><br><span class="line"> <span class="built_in">console</span>.log(subway.speed);<span class="comment">//100</span></span><br><span class="line"> <span class="built_in">console</span>.log(speed);<span class="comment">//150</span></span><br></pre></td></tr></table></figure></p>
+<p>先把这两道题放着，最后再来分析。</p>
+<blockquote>
+<p>In JavaScript, as in most object-oriented programming languages, <code>this</code> is a special keyword that is used within methods to refer to the object on which a method is being invoked.
+The <code>this</code> keyword is relative to the execution context, not the declaration context.</p>
+</blockquote>
+<blockquote>
+<p><code>this</code>指向函数执行时的当前对象(或理解为调用函数的对象)。该关键字在Javascript中和执行环境，而非声明环境有关。</p>
+</blockquote>
+<p>对<code>this</code>的定义相当简单，但是我们要知道的是如何确定是那个对象调用了函数，在不同的运行环境下，<code>this</code>到底指向谁？</p>
+<h2>Where is <code>this</code>?</h2>
+<p><a href="https://javascriptweblog.wordpress.com/2010/08/30/understanding-javascripts-this/" target="_blank" rel="external">Understanding JavaScript’s this keyword</a></p>
+<p>通过Twitter的Angus Croll的博客，我们来梳理下this在不同上下文中的指向。</p>
+<p><img src="/image/js-this.png" alt=""></p>
+<h3>1. Global context</h3>
+<p><code>this</code>指向全局对象（浏览器是<code>window</code>，nodejs是<code>global</code>）</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="keyword">this</span>); <span class="comment">//window</span></span><br></pre></td></tr></table></figure></p>
+<h3>2. Function context</h3>
+<p>至少有4种情况通过函数应用改变this的指向</p>
+<h4>a) 作为方法调用</h4>
+<p>方法和函数的区别就是，前者能找到一个明确的归属（对象），而后者是全局的
+<code>this</code>指向调用者</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">a.b(); <span class="comment">//a;</span></span><br><span class="line">a[<span class="string">'b'</span>](); <span class="comment">//a;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = &#123;&#125;;</span><br><span class="line">c.d = a.b;</span><br><span class="line">c.d(); <span class="comment">//c</span></span><br></pre></td></tr></table></figure></p>
+<h4>b) 作为没有归属的方法调用</h4>
+<p><code>this</code> is the global object (or ｀undefined｀ in strict mode)</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> foo = a.b;</span><br><span class="line">foo(); <span class="comment">//window</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> c = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">return</span> c();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">a.b(); <span class="comment">//window</span></span><br></pre></td></tr></table></figure></p>
+<p><code>a.b()</code>的例子不太好理解，因为当我们执行a.b()的时候，返回内容是c方法的执行结果，但是c并不是谁的属性，他是没有归属的，因此c的this表示全局环境。</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;<span class="keyword">return</span> <span class="keyword">this</span>;&#125;)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">a.b(); <span class="comment">//window</span></span><br></pre></td></tr></table></figure></p>
+<p>自执行函数的调用者都是全局环境——window</p>
+<h4>c) 通过Function.prototype.call, Function.prototype.apply调用</h4>
+<p>call, apply函数可以将<code>this</code>指向第一个参数</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params">x1, x2, x3</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> d = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">a.b.call(d, x1, x2, x3);	<span class="comment">//d</span></span><br><span class="line">a.b.apply(d, [x1, x2, x3]); <span class="comment">//d</span></span><br></pre></td></tr></table></figure></p>
+<h4>d) 通过new调用一个构造函数</h4>
+<p><code>this</code>指向新建对象</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> A = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="string">"I'm an A"</span>&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> A(); <span class="comment">//"I'm an A"</span></span><br></pre></td></tr></table></figure></p>
+<h3>3. Evaluation context</h3>
+<p>eval表达式中的<code>this</code>和eval执行环境下的<code>this</code>指向相同</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="built_in">eval</span>(<span class="string">'this==window'</span>)); <span class="comment">//true - (except firebug, see above)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">eval</span>(<span class="string">'alert(this==a)'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">a.b(); <span class="comment">//true;</span></span><br></pre></td></tr></table></figure></p>
+<h2>总结</h2>
+<p>以上各种情况其实都满足<strong>this指向函数执行时的当前对象</strong>这句话。无论是全局环境还是对象内部调用，我们只要判断在程序执行上下文中，是谁让代码执行的。</p>
+<p>比如，在Global context下，函数执行时没有明显的调用对象，那肯定就是window调用的，因为函数的执行离不开context，及一个调用者的作用域。</p>
+<p>有些在语句块内执行的函数，虽然我们可以发现它存在于对象内部，看起来就是那个对象调用了它。但是，仔细分析，就发现自执行函数，和代码块内部定义了函数再执行，跟包裹它的对象毫无关系。最简单的方法就是，把这个可以的代码段从这个对象体内拿出来，如果他仍然能执行，证明他就是被global context调用的函数。</p>
+<p>apply和call方法其实就是借用了第一个参数的执行环境，执行一个未被这个对象定义过的函数。仔细想想，就会发现，这两个方法就是干着<strong>借窝生蛋</strong>的勾当，而执行上下文仍然在那个窝里。</p>
+<p>最后eval实际上和apply，call没什么两样，也是<strong>借窝生蛋</strong>，窝还是原来的窝，只不过功能更强大了，不仅可以生蛋，还可以做任何事情。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/25/javascript-this/" data-id="cik4ygpkx000ztnup61m7dwx7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-FE-knowledge-entrence" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/23/FE-knowledge-entrence/" class="article-date">
+  <time datetime="2015-11-23T14:05:48.000Z" itemprop="datePublished">11月 23 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/23/FE-knowledge-entrence/">前端知识大汇总</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>总结前端的知识点，结合一些例子便于理解。［不断更新中...］</p>
+<h2>HTML/CSS</h2>
+<ul>
+<li><a href="/content-css/InlineElement.html">行级元素</a></li>
+<li><a href="/content-css/InlineBlockSimple.html">inline-block</a></li>
+<li><a href="/content-css/BoxModel.html">盒子模型</a></li>
+<li><a href="/content-css/BFC.html">BFC</a></li>
+<li><a href="/content-css/Center.html">居中</a></li>
+<li>CSS3新特性
+<ul>
+<li><a href="/content-css/Css3-border-radius.html">圆角</a></li>
+<li><a href="/content-css/Css3-box-shadow.html">box-shadow</a></li>
+<li><a href="/content-css/Css3-text-shadow.html">文字阴影</a></li>
+<li><a href="/content-css/Css3-gradient.html">渐变</a></li>
+<li><a href="/content-css/Css3-pseudo-classes.html">css3伪类选择器</a></li>
+<li><a href="/content-css/Css3-flex.html">flex布局</a></li>
+</ul>
+</li>
+</ul>
+<h2>Pure CSS Toys</h2>
+<ul>
+<li><a href="/content-css/toys/Spinner.html">纯CSS3实现圆形进度条</a></li>
+<li><a href="/content-css/toys/Eclipse.html">月食</a></li>
+<li><a href="/content-css/toys/GrassPaper.html">草稿纸</a></li>
+</ul>
+<h2>Javascript</h2>
+<p>waiting..</p>
+<h2>Links</h2>
+<ul>
+<li><a href="http://a.singlediv.com" target="_blank" rel="external">Pure Css3 Complex Demo Show</a></li>
+</ul>
+<h2>Common.css Test</h2>
+<p><a href="/content-css/test/test-common-css.html">common.css test</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/11/23/FE-knowledge-entrence/" data-id="cik4ygpl20014tnupsej9jthg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-追赶时间的脚步" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/07/追赶时间的脚步/" class="article-date">
+  <time datetime="2014-12-07T11:28:12.000Z" itemprop="datePublished">12月 7 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/07/追赶时间的脚步/">追赶时间的脚步</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从出生到现在，除了时间，没有什么力量让我感到如此可怕，它可以创造一切，也可以毁灭一切。虽然，很多时候我们甚至可以肆意的说出 <em>“我斗得过命运！”</em> 这样逆天的话，但是在时间面前我们确是一粒尘埃，它老人家看过的东西太多，不会在乎我们的小性命。但在我们的维度里，时间又显得那样长，尤其当我们有所期待。渺小的性命也能爆发出磅礴的能量，一对反物质的湮灭，一次深情的对视。 ------题(che)记(dan)</p>
+<p>最近很多时候苦恼办事效率低下，工作热情不高，执行力不足，这种情况很具有周期性。可能每个人都有这样的痛楚，明明自己有一颗想要努力奋斗的心，凡是身体却不听自己的使唤。我可以把这种毛病称为<strong>间歇性身心行动力失调</strong>，当然外在的因素起到关键的作用，比如：客户又提新需求，PMS里的bug数有增无减，团队内部负能量爆发，好看的女同事离职，这个月工资花光了等等。种种的负面影响加上长期加班引起的颈椎病复发，导致任何一个正常的人都无法承受这生命之重，虽然心里仍然鼓励自己坚持坚持，马上就要告别这个傻X的项目，做自己喜欢的事情这样看似很美好的借口，但是往往现实的残酷让你觉得，这TM要哪年才能上线呀。。当然这种外部因素一直以来是维持我们懒惰的好借口，但是对自我状况的科学调节才是解决问题正确的方法哟！</p>
+<h2>执行力</h2>
+<p>很多时候我们觉得自己想做一件事情，但最后没有做成，都会归咎于自己没时间，或者这事情我没做过，有好多东西需要学习，我没时间，这样看似蛮有道理的借口。但是事实是：我们觉得没时间以后，去刷朋友圈了，去约妹子看电影了，去打游戏了，去发呆了，去思考人生了，去刷知乎什么什么的了。<strong>由于以前不规律的生活习惯，导致我们在对新的计划作出成本估算是总会用以前的样本数据做一次毫无道理评估</strong>，而我们又满足于这次评估，因为没有对当下的我们造成任何损失。
+	所以，如果要提高执行力的第一步就是——抛弃过去不好的生活习惯，将你的新计划当成我这一生将要做的一个完全不一样的事情，这件事是我生命的一个新起点，我的生命将因此发光，人类将为我骄傲，宇宙也要为我让步，我，就是这么任性！</p>
+<p>其次，当我们吃了熊心豹子胆想要完成一次自我的救赎时，往往第一步还迈出去就跌倒了。我就经常这样，比如某一次看了一段牛人的B-box视频，然后自己也模仿了一下，感觉自己好有天赋，于是下定决心要将这个本领学好，好多一些和小伙伴们交(zhuang)流(bi)的话题和资本。但是，当我兴高采烈的开始寻找一些网上分享的B-box速成指南后，发现这TM根本就不能速成吗，各种基本音要几千遍找到正确的发音方式，找到了还要几万遍的重复，让肌肉记忆下来，这还能不能愉快的和小伙伴们交流啦。结局就是，我仍然是一个正常的美声歌手。。
+	所以，很多时候我们光有热情去做某件事的时候，这种突如其来的热度是无法温暖我们将计划执行到底的，何况计划往往都还没有。因此，在想要做一件事之前，先让自己冷静下来，判断一下，我为什么要做这件事，这件事会对我现在或未来造成哪些影响，我能够为此付出多大的成本。这三个思考要在3分钟之内完成，因为思考久了就会发呆。。</p>
+<p>当你在理智的状态下决定要去做某件事的以后，那接下来的就是——做计划了。</p>
+<h2>做计划</h2>
+<p>好的开始是成功的一半，这句话不假。但没有计划，你可能只会成功一半。往往事情的开始都会比我们预想的要顺利一些，因为我们还有热度。但是热度没了，我们就只能靠最开始的计划来让行动继续下去。很多人说，计划赶不上变化，索性就顺其自然。那就大错特错了，好的计划能让变化发生在可控制的范围内，比如，你想要学习一样东西，但是工作不得不让你加班，从起床开始加到睡觉，从周一开始加到周日，这可能就是你所谓的变化，但是这不是变化，而是中断，或者挂起。很多人碰到这种情况就会觉得自己要学习的原计划执行不下去了，因为当加班结束以后，你可能已经忘记了自己曾经立下豪言壮语，要学某个东西这件事了。但是，如果计划做的好，中断回复以后，你仍然可以按照之前的轨迹继续执行，好像中间的加班完全没有发生过一样。
+	如何做一个好的计划：计划的作用，是在自己迷失的时候帮助你找到方向。因此，可以多花一点时间做计划，学习前辈的经验，他们都跌倒了无数次，你知道他们在哪里跌倒就要尽量避免。计划不能过粗，也不能太细。思考计划的过程，应该自顶而下，从你要做的这件事开始，逐步分解，也就是分治策略；同时结合当前的状况做对比分析。</p>
+<p>比如我想五年内，称为一名出色的架构师。如果要成为出色的架构师，应该先成为一家公司的核心技术力量，并且具有团队号召力，大局观和健康的身体。于是可以将目标分成两个分支，并按照倒推的方式，完成每年的里程碑目标，同时根据现在的情况判断计划完成需要的时间和可能性，然后微调。最终的计划可能是这样的（以下为不完全分析）：</p>
+<ul>
+<li>第五年：我成为了架构师，团队凝聚力强，具有号召力，身体健康，充分了解市场和用户。</li>
+<li>第四年：我成为了公司的技术核心，显然成为技术核心是需要很多学习和项目经验的，但是我忽略了周围和同事之间的相处，好像需要提高一下凝聚力，那么就从沟通开始，希望每周和大家有空一起外出运行一下，唱唱歌撸撸串。但是技术也不能落下，架构设计方面的知识有待提高，多看看大型项目的开发经验，研究一些复杂系统的设计思路，当然身体还是要棒棒的！</li>
+<li>第三年：我的技术成长飞快，老板好像很喜欢我了，毕竟三年来成功完成了很多项目，也用业余时间学习了不少知识，和团队的关系也挺融洽的，毕竟大家都是程序员，人畜无害的生物嘛~但是很多时候自己研究还是不够的，也要为公司的未来考虑考虑，大家好才是真的好。以后经常和大家做一些技术分享，新来的员工也要知道我们这些老人走过的弯路，培训嘛，还是实在点好。市场这种东西，也应该多学一学，毕竟公司不只有一个开发部。</li>
+<li>第二年：来公司第二年了，已经可以独当一面了，毕竟第一年我的付出可是有目共睹的，然而距离架构师还有很长一段路要走，毕竟这是公司技术超牛的人呀。操作系统，数据库，算法，分布式，TCP/IP，设计模式，前后端常用的框架，我还有很多要学的，怎么可以松懈呢。</li>
+<li>第一年：毕业了好开心，但是工作比上学要累的多呢。还要做了我喜欢做的事，虽然项目事情很多，但是我年轻，我是小兵，我要干好我的工作，老板就会满意，剩下的时间多学点东西，都是为我以后成为架构师做的长远投资。看来娱乐的时间不能太多了呀，但是要多锻炼，身体要健健康康的。多向同事学习，多思考，经过自己的努力没法解决的事情要及时请教别人。总之，这一年要努力提高自己的技术，让大家觉得我是项目组的核心人物，哈哈，就这么办吧！加油！</li>
+</ul>
+<h2>反馈</h2>
+<p>计划并非是一成不变的，一个好的系统都会有自我调节能力，垃圾多了要回收，电源线拔了要进入省电模式，女朋友生气了要去哄。反馈是维持系统正常运转的必要内容，也是保证我们计划顺利进行的关键因素。上文中否定了计划赶不上变化这句话，但是真的遇到了变化应该如何处理。
+	原计划遇到变故，导致影响了正常的执行轨迹，如果不及时调整就会导致计划失控，最终目标无法达成。类似于破窗效应，有了破窗赶紧修。既然计划受到影响，那就及时调整计划，可以推迟计划的原定时间，也可以通过加快执行效率追上正常的计划预期。总之，在失控之前，修复它。</p>
+<p>反馈，就是周期性的检查一下当前的状态是否支撑你按照原进度完成该做的事情。有点**“吾日三省吾身”**的感觉。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/12/07/追赶时间的脚步/" data-id="cik4ygpkm000mtnupiu1r1srx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Canvas之四-康威生命游戏2号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/27/Canvas之四-康威生命游戏2号/" class="article-date">
+  <time datetime="2014-11-26T17:38:09.000Z" itemprop="datePublished">11月 27 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/27/Canvas之四-康威生命游戏2号/">Canvas之四 康威生命游戏2号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文可以自己创建一个符合康威游戏规则的小世界，怎么发挥都随便你，看着这个这些虚拟小生命的繁衍，体验做上帝的感觉。
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/css/canvas4.css&quot;&gt;
+&lt;div style=&quot;display:inline-block;&quot;&gt;第&lt;span id=&quot;generation&quot; style=&quot;width: 100px;&quot;&gt;&lt;/span&gt;代&lt;button onclick=&quot;reset();&quot;&gt;重置&lt;/button&gt;&lt;button onclick=&quot;start();&quot;&gt;开始&lt;/button&gt;&lt;input id=&quot;speed&quot; placeholder=&quot;100 ms/g&quot; style=&quot;width: 80px&quot;&gt;&lt;button onclick=&quot;stop();&quot;&gt;暂停&lt;/button&gt;&lt;button onclick=&quot;random();&quot;&gt;随机&lt;/button&gt;&lt;button onclick=&quot;nextGeneration();&quot;&gt;下一代&lt;/button&gt;&lt;/div&gt;&lt;hr&gt;&lt;div&gt;&lt;div class=&quot;left&quot;&gt;&lt;table id=&quot;diyTable&quot;&gt;&lt;/table&gt;&lt;/div&gt;&lt;canvas id=&quot;myCanvas&quot; width=&quot;440&quot; height=&quot;440&quot;&gt;您的浏览器不支持HTML5&lt;/canvas&gt;&lt;/div&gt;
+&lt;script&gt;
+var ifInit = false;
+var canvas = document.getElementById(&quot;myCanvas&quot;);
+var height = canvas.height,
+width = canvas.width,
+context = canvas.getContext(&quot;2d&quot;);
+var tx = 40,
+ty = 40;    // 记录长宽有多少个方块
+var cellWidth = height / ty,
+cellHeight = width / tx;    // 小细胞的长宽
+var lastData = [];  // 记录上一代的数据
+var data = [];     // (height+2) * (width + 2)
+var generation;
+var born = 3,   // 当周围有三个活着的时候，这个位置会活一个
+keep = 2;   // 当周围有两个的时候，这个位置不变，其他情况都死
+var running; // 是否运行
+var intervalTime = 100;   // 每次迭代的时间间隔
+var generationText = document.getElementById(&quot;generation&quot;);
+var diyTable = document.getElementById(&quot;diyTable&quot;);</p>
+<pre><code>// 初始化数据和canvas
+function init() {
+    generation = 0;
+    running = false;
+    intervalTime = parseInt(document.getElementById(&quot;speed&quot;).value);
+    lastData = buildTwoDArray(ty + 2, tx + 2);
+    data = buildTwoDArray(ty + 2, tx + 2);
+    context.clearRect(0, 0, width, height);
+    generationText.innerHTML = generation;
+    ifInit ? 1 : initTable();
+    clearTable();
+}
+
+// 随机生成数据
+function random() {
+	init();
+    lastData = buildTwoDArray(ty + 2, tx + 2);
+    data = buildTwoDArray(ty + 2, tx + 2);
+    // 生成画面的内容，即data的数据
+    for (var i = 0; i &lt; ty; i++) {
+        for (var j = 0; j &lt; tx; j++) {
+            if (Math.random() &gt; 0.8) {
+                data[i + 1][j + 1] = 1;
+            }
+        }
+    }
+    // 随机生成后要画出来
+    paintTable();
+    paint();
+}
+
+// 初始化选择变革
+function initTable() {
+    // 绘制表格
+    var html = [];
+    for (var i = 0; i &lt; ty; i++) {
+        html.push(&quot;&lt;tr&gt;&quot;);
+        for (var j = 0; j &lt; tx; j++) {
+            html.push(&quot;&lt;td onclick='selectCell(this, &quot; + i + &quot;,&quot; + j + &quot;);'&gt;&lt;/td&gt;&quot;)
+        }
+        html.push(&quot;&lt;/tr&gt;&quot;);
+    }
+    diyTable.innerHTML = html.join(&quot;&quot;);
+    ifInit = true;
+}
+
+function selectCell(cell, x, y) {
+    if (data[x + 1][y + 1]) {
+        // 取消选择
+        cell.style.backgroundColor = &quot;white&quot;;
+        data[x + 1][y + 1] = 0;
+    } else {
+        // 选择
+        cell.style.backgroundColor = &quot;blue&quot;;
+        data[x + 1][y + 1] = 1;
+    }
+}
+
+// 清空选择表格
+function clearTable() {
+    // 恢复所有单元格的颜色
+    for (var i = 0; i &lt; ty; i++) {
+        for (var j = 0; j &lt; tx; j++) {
+            diyTable.rows[i].cells[j].style.backgroundColor = &quot;white&quot;;
+        }
+    }
+    // 恢复数据
+    lastData = buildTwoDArray(ty + 2, tx + 2);
+    data = buildTwoDArray(ty + 2, tx + 2);
+}
+
+// 填充选择表格
+function paintTable() {
+    for (var i = 0; i &lt; ty; i++) {
+        for (var j = 0; j &lt; tx; j++) {
+            if (data[i + 1][j + 1]) {
+                diyTable.rows[i].cells[j].style.backgroundColor = &quot;blue&quot;;
+            } else {
+                diyTable.rows[i].cells[j].style.backgroundColor = &quot;white&quot;;
+            }
+        }
+    }
+}
+
+function drawCell(y, x) {
+    var cx = x * cellWidth;
+    var cy = y * cellHeight;
+    context.fillStyle = &quot;Gold&quot;;
+    context.fillRect(cx, cy, cellWidth, cellHeight);
+    context.strokeStyle = &quot;DarkGoldenRod&quot;;
+    context.strokeRect(cx + 1, cy + 1, cellWidth - 2, cellHeight - 2);
+}
+
+function killCell(y, x) {
+    var cx = x * cellWidth;
+    var cy = y * cellHeight;
+    context.clearRect(cx, cy, cellWidth, cellWidth);
+}
+
+// 将数据画到canvas上
+function paint() {
+    for (var i = 0; i &lt; ty; i++) {
+        for (var j = 0; j &lt; tx; j++) {
+            if (data[i + 1][j + 1] &amp;&amp; !lastData[i + 1][j + 1]) {
+                // 有生命
+                drawCell(i, j);
+            } else if (!data[i + 1][j + 1] &amp;&amp; lastData[i + 1][j + 1]) {
+                // 没有生命
+                killCell(i, j);
+            }
+        }
+    }
+    generationText.innerHTML = generation;
+}
+
+// 生成二维数组，所有初始化为0
+function buildTwoDArray(x, y) {
+    var arr = [];
+    for (var i = 0; i &lt; x; i++) {
+        arr[i] = [];
+        for (var j = 0; j &lt; y; j++) {
+            arr[i][j] = 0;
+        }
+    }
+    return arr;
+}
+
+// 进行这一代的计算，并将上一代的数据保存到lastData中
+function generate() {
+    lastData = data;
+    data = buildTwoDArray(ty + 2, tx + 2);
+    // 重新生成新一代的数据
+    for (var i = 1; i &lt;= ty; i++) {
+        for (var j = 1; j &lt;= tx; j++) {
+            // 周围有几个或者的
+            var state = lastData[i - 1][j - 1] + lastData[i - 1][j] + lastData[i - 1][j + 1] +
+                    lastData[i][j - 1] + lastData[i][j + 1] +
+                    lastData[i + 1][j - 1] + lastData[i + 1][j] + lastData[i + 1][j + 1];
+            if (state == born) {
+                data[i][j] = 1;
+            } else if (state == keep) {
+                data[i][j] = lastData[i][j];
+            } else {
+                data[i][j] = 0;
+            }
+        }
+    }
+    generation++;
+}
+
+function start() {
+    intervalTime = parseInt(document.getElementById(&quot;speed&quot;).value, 10);
+    function run() {
+        if (running) {
+            setTimeout(function () {
+                paint();
+                generate();
+                run();
+            }, intervalTime);
+        }
+    }
+    running = true;
+    run();
+}
+
+function stop() {
+    running = false;
+}
+
+function reset() {
+    init();
+}
+
+function nextGeneration() {
+    paint();
+    generate();
+}
+
+window.addEventListener(&quot;load&quot;, init, true);
+</code></pre>
+<p>&lt;/script&gt;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/11/27/Canvas之四-康威生命游戏2号/" data-id="cik4ygpl50017tnup17kib0ue" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Canvas之三-康威生命游戏1号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/27/Canvas之三-康威生命游戏1号/" class="article-date">
+  <time datetime="2014-11-26T17:36:14.000Z" itemprop="datePublished">11月 27 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/27/Canvas之三-康威生命游戏1号/">Canvas之三 康威生命游戏1号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文实现了一个随机小世界的繁衍过程，可以控制迭代速度，纯原生js实现</p>
+<p>&lt;div style=&quot;display:inline-block;&quot;&gt;第&lt;span id=&quot;generation&quot; style=&quot;width: 100px;&quot;&gt;&lt;/span&gt;代&lt;button onclick=&quot;reset();&quot;&gt;重置&lt;/button&gt;&lt;button onclick=&quot;start();&quot;&gt;开始&lt;/button&gt;&lt;input id=&quot;speed&quot; placeholder=&quot;100 ms/g&quot; style=&quot;width: 80px&quot;&gt;&lt;button onclick=&quot;stop();&quot;&gt;暂停&lt;/button&gt;&lt;button onclick=&quot;nextGeneration();&quot;&gt;下一代&lt;/button&gt;&lt;/div&gt;&lt;hr&gt;&lt;div&gt;&lt;canvas id=&quot;myCanvas&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;您的浏览器不支持HTML5&lt;/canvas&gt;&lt;/div&gt;
+&lt;script&gt;
+var canvas = document.getElementById(&quot;myCanvas&quot;);
+var height = canvas.height,
+width = canvas.width,
+context = canvas.getContext(&quot;2d&quot;);
+var lastData = [];  // 记录上一代的数据
+var data = [];     // (height+2) * (width + 2)
+var imageData;
+var generation;
+var born = 3,   // 当周围有三个活着的时候，这个位置会活一个
+keep = 2;   // 当周围有两个的时候，这个位置不变，其他情况都死
+var running; // 是否运行
+var intervalTime = 100;   // 每次迭代的时间间隔</p>
+<pre><code>// 初始化数据和canvas
+function init() {
+    generation = 0;
+    running = false;
+    intervalTime = parseInt(document.getElementById(&quot;speed&quot;).value);
+    lastData = buildTwoDArray(height + 2, width + 2);
+    data = buildTwoDArray(height + 2, width + 2);
+    context.clearRect(0, 0, width, height);
+    imageData = context.getImageData(0, 0, width, height);
+    document.getElementById(&quot;generation&quot;).innerHTML = generation.toString();
+    random();
+}
+
+// 随机生成数据
+function random() {
+    // 生成画面的内容，即data的数据
+    for (var i = 0; i &lt; height; i++) {
+        for (var j = 0; j &lt; width; j++) {
+            if (Math.random() &gt; 0.8) {
+                data[i + 1][j + 1] = 1;
+            }
+        }
+    }
+    // 随机生成后要画出来
+    paint();
+}
+
+// 将数据花到canvas上
+function paint() {
+    var d = imageData.data;
+    // 生成绘制到canvas上的，下面代码的操作对象是图像流（数组）
+    for (var i = 0; i &lt; height; i++) {
+        for (var j = 0; j &lt; width; j++) {
+            if (data[i + 1][j + 1] &amp;&amp; !lastData[i + 1][j + 1]) {
+                var pos = (i * width + j) * 4;
+                // 有生命，变成红色
+                d[pos] = 255; // red
+                d[pos + 1] = 0; // green
+                d[pos + 2] = 0; // blue
+                d[pos + 3] = 255;   // 阿尔法通道，这个不设置会变成全透明
+            } else if (!data[i + 1][j + 1] &amp;&amp; lastData[i + 1][j + 1]) {
+                var pos = (i * width + j) * 4;
+                // 有生命，变成红色
+                d[pos] = 255; // red
+                d[pos + 1] = 255; // green
+                d[pos + 2] = 255; // blue
+            }
+        }
+    }
+    context.putImageData(imageData, 0, 0);
+    document.getElementById(&quot;generation&quot;).innerHTML = generation.toString();
+}
+
+// 生成二维数组，所有初始化为0
+function buildTwoDArray(x, y) {
+    var arr = [];
+    for (var i = 0; i &lt; x; i++) {
+        arr[i] = [];
+        for (var j = 0; j &lt; y; j++) {
+            arr[i][j] = 0;
+        }
+    }
+    return arr;
+}
+
+// 进行这一代的计算，并将上一代的数据保存到lastData中
+function generate() {
+    lastData = data;
+    data = buildTwoDArray(height + 2, width + 2);
+    // 重新生成新一代的数据
+    for (var i = 1; i &lt;= height; i++) {
+        for (var j = 1; j &lt;= width; j++) {
+            // 周围有几个或者的
+            var state = lastData[i - 1][j - 1] + lastData[i - 1][j] + lastData[i - 1][j + 1] +
+                    lastData[i][j - 1] + lastData[i][j + 1] +
+                    lastData[i + 1][j - 1] + lastData[i + 1][j] + lastData[i + 1][j + 1];
+            if (state == born) {
+                data[i][j] = 1;
+            } else if (state == keep) {
+                data[i][j] = lastData[i][j];
+            } else {
+                data[i][j] = 0;
+            }
+        }
+    }
+    generation++;
+}
+
+function start() {
+    intervalTime = parseInt(document.getElementById(&quot;speed&quot;).value);
+    function run() {
+        if (running) {
+            setTimeout(function () {
+                paint();
+                generate();
+                run();
+            }, intervalTime);
+        }
+    }
+    running = true;
+    run();
+}
+
+function stop() {
+    running = false;
+}
+
+function reset() {
+    init();
+}
+
+function nextGeneration() {
+    paint();
+    generate();
+}
+window.addEventListener(&quot;load&quot;, init, true);
+</code></pre>
+<p>&lt;/script&gt;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/11/27/Canvas之三-康威生命游戏1号/" data-id="cik4ygpld001ktnupzlwx03a8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Canvas之二-像素处理技法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/25/Canvas之二-像素处理技法/" class="article-date">
+  <time datetime="2014-11-25T14:39:03.000Z" itemprop="datePublished">11月 25 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/25/Canvas之二-像素处理技法/">Canvas之二 像素处理技法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>继续上一篇文章，这篇文章介绍通过Canvas对图片（Image对象）的像素处理方法，同样文章参考阮一峰前辈的<a href="http://javascript.ruanyifeng.com/htmlapi/canvas.html" target="_blank" rel="external">Canvas API文档</a>。</p>
+<p>作者也曾经玩过一年多的Ps，但是一直没有深入了解过图片处理的计算方法，这里也顺便复习一下，一些概念知识片面的带过，有时间再写文章专门讨论。</p>
+<h2>正题</h2>
+<p>其实，HTML5中通过Canvas处理图像只需要了解两个函数就够了，<code>getImageData</code>和<code>putImageData</code>，前者是读取一个Canvas的内容，返回一个对象，我们取名imageDate，
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> imageData = context.getImageData(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br></pre></td></tr></table></figure></p>
+<p>其中的data属性，其实是一个一维数组，每四个值为一组[data[4k], data[4k+3]]，分别表示r，g，b光的三原色和Alpha通道（透明度），取值都是[0, 255]。</p>
+<p>后者是一个写方法，可以将数组内容重新绘制到Canvas中。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.putImageData(imageData, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>我们以下面的一张图片为例：</p>
+<p><img src="/image/canvas-1.png" alt="Canvas Pic 1"></p>
+<p>首先，我们要把图片插入到Canvas中。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">img.src = <span class="string">"/image/canvas-1.png"</span>;</span><br><span class="line">context.drawImage(img, <span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 设置对应的图像对象，以及它在画布上的位置</span></span><br></pre></td></tr></table></figure></p>
+<p>由于图像的载入需要时间，drawImage方法只能在图像完全载入后才能调用，因此上面的代码需要改写。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> image = <span class="keyword">new</span> Image(); </span><br><span class="line"></span><br><span class="line">image.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (image.width != canvas.width)</span><br><span class="line">        canvas.width = image.width;</span><br><span class="line">    <span class="keyword">if</span> (image.height != canvas.height)</span><br><span class="line">        canvas.height = image.height;</span><br><span class="line"></span><br><span class="line">    context.clearRect(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br><span class="line">    context.drawImage(image, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">image.src = <span class="string">"/image/canvas-1.png"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>drawImage()方法接受三个参数，第一个参数是图像文件的DOM元素（即img标签），第二个和第三个参数是图像左上角在Canvas元素中的坐标，上例中的（0, 0）就表示将图像左上角放置在Canvas元素的左上角。</p>
+<p>当我们把图片用画笔（context）绘制到画布上（Canvas），就可以用上边提到的getImageData方法获得图像的数据了。假设我们图像处理函数叫filter，那么整个处理过程如下：
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (canvas.width &gt; <span class="number">0</span> &amp;&amp; canvas.height &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> imageData = context.getImageData(<span class="number">0</span>, <span class="number">0</span>, canvas.width, canvas.height);</span><br><span class="line">    filter(imageData);</span><br><span class="line">    context.putImageData(imageData, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2>1. 灰度效果</h2>
+<h3>数学原理</h3>
+<p>灰度图（grayscale）就是取红、绿、蓝三个像素值的算术平均值，这实际上将图像转成了黑白形式。假定d[i]是像素数组中一个象素的红色值，则d[i+1]为绿色值，d[i+2]为蓝色值，d[i+3]就是alpha通道值。转成灰度的算法，就是将红、绿、蓝三个值相加后除以3，再将结果写回数组。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">grayscale = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> r = d[i];</span><br><span class="line">      <span class="keyword">var</span> g = d[i + <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">var</span> b = d[i + <span class="number">2</span>];</span><br><span class="line">      d[i] = d[i + <span class="number">1</span>] = d[i + <span class="number">2</span>] = (r+g+b)/<span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>2. 复古效果</h2>
+<h3>数学原理</h3>
+<p>复古效果（sepia）则是将红、绿、蓝三个像素，分别取这三个值的某种加权平均值，使得图像有一种古旧的效果。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sepia = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> r = d[i];</span><br><span class="line">      <span class="keyword">var</span> g = d[i + <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">var</span> b = d[i + <span class="number">2</span>];</span><br><span class="line">      d[i]     = (r * <span class="number">0.393</span>)+(g * <span class="number">0.769</span>)+(b * <span class="number">0.189</span>); <span class="comment">// red</span></span><br><span class="line">      d[i + <span class="number">1</span>] = (r * <span class="number">0.349</span>)+(g * <span class="number">0.686</span>)+(b * <span class="number">0.168</span>); <span class="comment">// green</span></span><br><span class="line">      d[i + <span class="number">2</span>] = (r * <span class="number">0.272</span>)+(g * <span class="number">0.534</span>)+(b * <span class="number">0.131</span>); <span class="comment">// blue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>3. 红色蒙版效果</h2>
+<h3>数学原理</h3>
+<p>红色蒙版指的是，让图像呈现一种偏红的效果。算法是将红色通道设为红、绿、蓝三个值的平均值，而将绿色通道和蓝色通道都设为0。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">red = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> r = d[i];</span><br><span class="line">      <span class="keyword">var</span> g = d[i + <span class="number">1</span>];</span><br><span class="line">      <span class="keyword">var</span> b = d[i + <span class="number">2</span>];</span><br><span class="line">      d[i] = (r+g+b)/<span class="number">3</span>;        <span class="comment">// 红色通道取平均值</span></span><br><span class="line">      d[i + <span class="number">1</span>] = d[i + <span class="number">2</span>] = <span class="number">0</span>; <span class="comment">// 绿色通道和蓝色通道都设为0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>4. 亮度效果</h2>
+<h3>数学原理</h3>
+<p>亮度效果（brightness）是指让图像变得更亮或更暗。算法将红色通道、绿色通道、蓝色通道，同时加上一个正值或负值。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">brightness = <span class="function"><span class="keyword">function</span> (<span class="params">pixels, delta</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">          d[i] += delta;     <span class="comment">// red</span></span><br><span class="line">          d[i + <span class="number">1</span>] += delta; <span class="comment">// green</span></span><br><span class="line">          d[i + <span class="number">2</span>] += delta; <span class="comment">// blue   </span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2>5. 反转效果</h2>
+<h3>数学原理</h3>
+<p>反转效果（invert）是指图片呈现一种色彩颠倒的效果。算法为红、绿、蓝通道都取各自的相反值（255-原值）。</p>
+<h3>代码</h3>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">invert = <span class="function"><span class="keyword">function</span> (<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = pixels.data;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d.length; i += <span class="number">4</span>) &#123;</span><br><span class="line">        d[i] = <span class="number">255</span> - d[i];</span><br><span class="line">        d[i+<span class="number">1</span>] = <span class="number">255</span> - d[i + <span class="number">1</span>];</span><br><span class="line">        d[i+<span class="number">2</span>] = <span class="number">255</span> - d[i + <span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>实例：
+&lt;div style=&quot;display: inline-block;&quot;&gt;&lt;button onclick=&quot;doBack();&quot;&gt;复原&lt;/button&gt;&lt;button onclick=&quot;doGrayscale();&quot;&gt;灰度效果&lt;/button&gt;&lt;button onclick=&quot;doSepia();&quot;&gt;复古效果&lt;/button&gt;&lt;button onclick=&quot;doRed();&quot;&gt;红色蒙版效果&lt;/button&gt;&lt;input text=&quot;text&quot; placeholder=&quot;亮度参数 -255 ~ 255&quot; id=&quot;delta&quot;&gt;&lt;button onclick=&quot;doBrightness();&quot;&gt;亮度效果&lt;/button&gt;&lt;button onclick=&quot;doInvert();&quot;&gt;反转效果&lt;/button&gt;&lt;/div&gt;&lt;canvas id=&quot;myCanvas&quot; width=&quot;1300&quot; height=&quot;400&quot;&gt;您的浏览器不支持canvas！&lt;/canvas&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+var image = new Image();
+var originImageData;
+var imageData;</p>
+<p>image.onload = function() {</p>
+<pre><code>if (image.width != canvas.width)
+    canvas.width = image.width;
+if (image.height != canvas.height)
+    canvas.height = image.height;
+
+context.clearRect(0, 0, canvas.width, canvas.height);
+context.drawImage(image, 0, 0);
+originImageData = context.getImageData(0, 0, canvas.width, canvas.height);
+</code></pre>
+<p>}
+image.src = &quot;/image/canvas-1.png&quot;;</p>
+<p>function doWhat(filter, delta) {
+	if (canvas.width &gt; 0 &amp;&amp; canvas.height &gt; 0) {
+	imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+	delta ? filter(imageData, delta) : filter(imageData);
+	context.putImageData(imageData, 0, 0);
+	}
+}</p>
+<p>function doBack() {
+	if (canvas.width &gt; 0 &amp;&amp; canvas.height &gt; 0) {
+	context.putImageData(originImageData, 0, 0);
+	}
+}</p>
+<p>var grayscale = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+var r = d[i];
+var g = d[i + 1];
+var b = d[i + 2];
+d[i] = d[i + 1] = d[i + 2] = (r+g+b)/3;
+}
+return pixels;
+};</p>
+<p>var sepia = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+var r = d[i];
+var g = d[i + 1];
+var b = d[i + 2];
+d[i]     = (r * 0.393)+(g * 0.769)+(b * 0.189); // red
+d[i + 1] = (r * 0.349)+(g * 0.686)+(b * 0.168); // green
+d[i + 2] = (r * 0.272)+(g * 0.534)+(b * 0.131); // blue
+}
+return pixels;
+};</p>
+<p>var red = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+var r = d[i];
+var g = d[i + 1];
+var b = d[i + 2];
+d[i] = (r+g+b)/3;        // 红色通道取平均值
+d[i + 1] = d[i + 2] = 0; // 绿色通道和蓝色通道都设为0
+}
+return pixels;
+};</p>
+<p>var brightness = function (pixels, delta) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+d[i] += delta;     // red
+d[i + 1] += delta; // green
+d[i + 2] += delta; // blue<br>
+}
+return pixels;
+};</p>
+<p>var invert = function (pixels) {
+var d = pixels.data;
+for (var i = 0; i &lt; d.length; i += 4) {
+d[i] = 255 - d[i];
+d[i+1] = 255 - d[i + 1];
+d[i+2] = 255 - d[i + 2];
+}
+return pixels;
+};</p>
+<p>function doGrayscale() {
+	doWhat(grayscale);
+}</p>
+<p>function doSepia() {
+	doWhat(sepia);
+}</p>
+<p>function doRed() {
+	doWhat(red);
+}</p>
+<p>function doBrightness() {
+	var delta = parseInt(document.getElementById(&quot;delta&quot;).value, 10);
+	doWhat(brightness, delta);
+}</p>
+<p>function doInvert() {
+	doWhat(invert);
+}</p>
+<p>&lt;/script&gt;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/11/25/Canvas之二-像素处理技法/" data-id="cik4ygpl9001etnupef64njf2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图像处理/">图像处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Canvas之一-旋转的太极" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/25/Canvas之一-旋转的太极/" class="article-date">
+  <time datetime="2014-11-25T13:48:01.000Z" itemprop="datePublished">11月 25 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/blog/">blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/25/Canvas之一-旋转的太极/">Canvas之一 旋转的太极</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天看到了<a href="http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank" rel="external">康威生命游戏</a>，有点小激动，想自己用javascript实现一个。本来想用表格的方式着色去做，但是又看到了已经有人通过HTML5的canvas完成了，代码都公布出来了<a href="http://blog.csdn.net/lifegame/article/details/6385081" target="_blank" rel="external">HTML5版本的生命游戏</a>，而且下下来就能运行。。然后就想着我可以做个更好的，但是不会canvas怎么办？学呗！经常知识栈溢出的我就是这么任性。</p>
+<p>在寻找好的学习资料的道路上又遇到了阮一峰大神，他还是我的校友你敢信？真是学习的榜样啊！<a href="http://javascript.ruanyifeng.com/htmlapi/canvas.html" target="_blank" rel="external">一个好的Canvas API学习文档</a>。</p>
+<p>然后就这么折腾了一小会儿，写了个简单的旋转的太极图。</p>
+<p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span><span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">canvas</span> <span class="attribute">id</span>=<span class="value">"myCanvas"</span> <span class="attribute">width</span>=<span class="value">"400"</span> <span class="attribute">height</span>=<span class="value">"400"</span>&gt;</span></span><br><span class="line">    您的浏览器不支持canvas！</span><br><span class="line"><span class="tag">&lt;/<span class="title">canvas</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">'myCanvas'</span>);</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">    <span class="keyword">var</span> height = <span class="number">400</span>;</span><br><span class="line">    <span class="keyword">var</span> width = <span class="number">400</span>;</span><br><span class="line">    <span class="comment">/*</span><br><span class="line">     ctx.beginPath(); // 开始路径绘制</span><br><span class="line">     ctx.moveTo(20, 20); // 设置路径起点，坐标为(20,20)</span><br><span class="line">     ctx.lineTo(200, 20); // 绘制一条到(200,20)的直线</span><br><span class="line">     ctx.lineTo(200, 100);</span><br><span class="line">     ctx.lineTo(20, 100);</span><br><span class="line">     ctx.closePath();</span><br><span class="line">     ctx.lineWidth = 1.0; // 设置线宽</span><br><span class="line">     ctx.strokeStyle = "#CC0000"; // 设置线的颜色</span><br><span class="line">     ctx.stroke(); // 进行线的着色，这时整条线才变得可见</span><br><span class="line">     ctx.fillStyle = 'yellow';   // 设置矩形的填充色</span><br><span class="line">     ctx.fillRect(50, 50, 200, 100); // 绘制一个有填充色的矩形</span><br><span class="line">     ctx.strokeRect(10, 10, 200, 100);  // 透明矩形</span><br><span class="line">     ctx.clearRect(100, 50, 50, 50);    // 清楚对应位置矩形区域</span><br><span class="line">     // 设置字体</span><br><span class="line">     ctx.font = "Bold 20px Arial";</span><br><span class="line">     // 设置对齐方式</span><br><span class="line">     ctx.textAlign = "left";</span><br><span class="line">     // 设置填充颜色</span><br><span class="line">     ctx.fillStyle = "#008600";</span><br><span class="line">     // 设置字体内容，以及在画布上的位置， 不支持文本断行</span><br><span class="line">     ctx.fillText("Hello!", 10, 50);</span><br><span class="line">     // 绘制空心字， 不支持文本断行</span><br><span class="line">     ctx.strokeText("Hello!", 10, 100);</span><br><span class="line">     // 清空画布</span><br><span class="line">     ctx.clearRect(0, 0, 400, 200);</span><br><span class="line">     // 绘制圆和扇形</span><br><span class="line">     ctx.beginPath();</span><br><span class="line">     ctx.arc(60, 60, 50, 0, Math.PI, true);</span><br><span class="line">     ctx.fillStyle = "#000000";</span><br><span class="line">     ctx.fill();</span><br><span class="line">     // 绘制空心圆</span><br><span class="line">     ctx.beginPath();</span><br><span class="line">     ctx.arc(60, 60, 50, 0, Math.PI * 2, true);</span><br><span class="line">     ctx.lineWidth = 1.0;</span><br><span class="line">     ctx.strokeStyle = "#000";</span><br><span class="line">     ctx.stroke();</span><br><span class="line">     // 根据上边画出来的，绘制一个太极图</span><br><span class="line">     ctx.beginPath();</span><br><span class="line">     ctx.arc(35, 60, 25, 0, Math.PI * 2, true);</span><br><span class="line">     ctx.fillStyle = "#ffffff";</span><br><span class="line">     ctx.fill();</span><br><span class="line">     ctx.beginPath();</span><br><span class="line">     ctx.arc(85, 60, 25, 0, Math.PI * 2, true);</span><br><span class="line">     ctx.fillStyle = "#000000";</span><br><span class="line">     ctx.fill();</span><br><span class="line">     ctx.beginPath();</span><br><span class="line">     ctx.arc(35, 60, 8, 0, Math.PI * 2, true);</span><br><span class="line">     ctx.fillStyle = "#000000";</span><br><span class="line">     ctx.fill();</span><br><span class="line">     ctx.beginPath();</span><br><span class="line">     ctx.arc(85, 60, 8, 0, Math.PI * 2, true);</span><br><span class="line">     ctx.fillStyle = "#ffffff";</span><br><span class="line">     ctx.fill();</span><br><span class="line">     // 设置渐变色</span><br><span class="line">     var myGradient = ctx.createLinearGradient(0, 0, 0, 160);</span><br><span class="line">     myGradient.addColorStop(0, "#BABABA");</span><br><span class="line">     myGradient.addColorStop(1, "#636363");</span><br><span class="line">     ctx.fillStyle = myGradient;</span><br><span class="line">     ctx.fillRect(10,10,200,100);</span><br><span class="line">     // 设置阴影</span><br><span class="line">     ctx.shadowOffsetX = 10; // 设置水平位移</span><br><span class="line">     ctx.shadowOffsetY = 10; // 设置垂直位移</span><br><span class="line">     ctx.shadowBlur = 5; // 设置模糊度</span><br><span class="line">     ctx.shadowColor = "rgba(0,0,0,0.5)"; // 设置阴影颜色</span><br><span class="line">     ctx.fillStyle = "#CC0000";</span><br><span class="line">     ctx.fillRect(10,10,200,100);</span><br><span class="line">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置坐标原点</span></span><br><span class="line">    ctx.translate(width / <span class="number">2</span>, height / <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 做一个旋转的太极图</span></span><br><span class="line">    setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 清空画布</span></span><br><span class="line">        ctx.clearRect(-width / <span class="number">2</span>, height / <span class="number">2</span>, width / <span class="number">2</span>, -height / <span class="number">2</span>);</span><br><span class="line">        <span class="comment">// 旋转画布</span></span><br><span class="line">        ctx.rotate(<span class="built_in">Math</span>.PI / <span class="number">20</span>);</span><br><span class="line">        <span class="comment">// 绘制圆的轮廓</span></span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(<span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">        ctx.lineWidth = <span class="number">2.0</span>;</span><br><span class="line">        ctx.strokeStyle = <span class="string">"#000"</span>;</span><br><span class="line">        ctx.stroke();</span><br><span class="line">        <span class="comment">// 画个黑圆</span></span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(<span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI, <span class="literal">true</span>);</span><br><span class="line">        ctx.fillStyle = <span class="string">"#000000"</span>;</span><br><span class="line">        ctx.fill();</span><br><span class="line">        <span class="comment">// 画个白圆</span></span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(<span class="number">0</span>, <span class="number">0</span>, <span class="number">50</span>, <span class="built_in">Math</span>.PI, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">        ctx.fillStyle = <span class="string">"#ffffff"</span>;</span><br><span class="line">        ctx.fill();</span><br><span class="line">        <span class="comment">// 根据上边画出来的，绘制一个太极图</span></span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(-<span class="number">25</span>, <span class="number">0</span>, <span class="number">25</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">        ctx.fillStyle = <span class="string">"#ffffff"</span>;</span><br><span class="line">        ctx.fill();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(<span class="number">25</span>, <span class="number">0</span>, <span class="number">25</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">        ctx.fillStyle = <span class="string">"#000000"</span>;</span><br><span class="line">        ctx.fill();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(-<span class="number">25</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">        ctx.fillStyle = <span class="string">"#000000"</span>;</span><br><span class="line">        ctx.fill();</span><br><span class="line">        ctx.beginPath();</span><br><span class="line">        ctx.arc(<span class="number">25</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">        ctx.fillStyle = <span class="string">"#ffffff"</span>;</span><br><span class="line">        ctx.fill();</span><br><span class="line">    &#125;, <span class="number">50</span>);</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如下为效果图：
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;
+您的浏览器不支持canvas！
+&lt;/canvas&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
+var height = 400;
+var width = 400;</p>
+<pre><code>// 设置坐标原点
+ctx.translate(width / 2, height / 2);
+
+// 做一个旋转的太极图
+setInterval(function () {
+    // 清空画布
+    ctx.clearRect(-width / 2, height / 2, width / 2, -height / 2);
+    // 旋转画布
+    ctx.rotate(Math.PI / 20);
+    // 绘制圆的轮廓
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, Math.PI * 2, true);
+    ctx.lineWidth = 2.0;
+    ctx.strokeStyle = &quot;#000&quot;;
+    ctx.stroke();
+    // 画个黑圆
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, Math.PI, true);
+    ctx.fillStyle = &quot;#000000&quot;;
+    ctx.fill();
+    // 画个白圆
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, Math.PI, Math.PI * 2, true);
+    ctx.fillStyle = &quot;#ffffff&quot;;
+    ctx.fill();
+    // 根据上边画出来的，绘制一个太极图
+    ctx.beginPath();
+    ctx.arc(-25, 0, 25, 0, Math.PI * 2, true);
+    ctx.fillStyle = &quot;#ffffff&quot;;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(25, 0, 25, 0, Math.PI * 2, true);
+    ctx.fillStyle = &quot;#000000&quot;;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(-25, 0, 8, 0, Math.PI * 2, true);
+    ctx.fillStyle = &quot;#000000&quot;;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(25, 0, 8, 0, Math.PI * 2, true);
+    ctx.fillStyle = &quot;#ffffff&quot;;
+    ctx.fill();
+}, 50);
+</code></pre>
+<p>&lt;/script&gt;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/11/25/Canvas之一-旋转的太极/" data-id="cik4ygplh001ptnupa984goh6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/canvas/">canvas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/其它/" style="font-size: 13.33px;">其它</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/图像处理/" style="font-size: 10px;">图像处理</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/02/02/reset-mysql-default-password/">修改最新版本Mysql默认密码(v5.7.10)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/02/sublime-plugin-development/">如何开发Sublime插件</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/25/javascript-this/">对于javascript关键字this的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/23/FE-knowledge-entrence/">前端知识大汇总</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/07/追赶时间的脚步/">追赶时间的脚步</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Wang Chao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

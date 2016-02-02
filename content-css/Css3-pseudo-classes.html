@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Raphael Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    
+    学习伪类选择器
+    
+    
+        ul.inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.inline li {
+            list-style-type: none;
+            display">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Raphael Wang">
+<meta property="og:url" content="http://yoursite.com/content-css/Css3-pseudo-classes.html">
+<meta property="og:site_name" content="Raphael Wang">
+<meta property="og:description" content="&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    
+    学习伪类选择器
+    
+    
+        ul.inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.inline li {
+            list-style-type: none;
+            display">
+<meta property="og:updated_time" content="2016-01-25T15:14:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Raphael Wang">
+<meta name="twitter:description" content="&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    
+    学习伪类选择器
+    
+    
+        ul.inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.inline li {
+            list-style-type: none;
+            display">
+  
+    <link rel="alternative" href="/atom.xml" title="Raphael Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Raphael Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">三生万物</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/content-css/Css3-pseudo-classes.html" class="article-date">
+  <time datetime="2016-01-25T15:14:36.000Z" itemprop="datePublished">1月 25 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学习伪类选择器</title>
+    <link rel="stylesheet" href="../../bower_components/normalize-css/normalize.css">
+    <style>
+        ul.inline {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.inline li {
+            list-style-type: none;
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background-color: green;
+        }
+
+        #ts1:checked ~ ul.inline > li:first-of-type,
+        #ts2:checked ~ ul.inline > li:last-of-type,
+        #ts3:checked ~ ul.inline > li:first-child,
+        #ts4:checked ~ ul.inline > li:last-child,
+        #ts5:checked ~ ul.inline > li:empty,
+        #ts6:checked ~ ul.inline > li:not(:first-of-type),
+        #ts7:checked ~ ul.inline > li:nth-child(2),
+        #ts8:checked ~ ul.inline > li:nth-child(2n),
+        #ts9:checked ~ ul.inline > li:nth-last-child(2),
+        #ts10:checked ~ ul.inline > li:nth-of-type(2),
+        #ts11:checked ~ ul.inline > li:nth-of-type(2n),
+        #ts12:checked ~ ul.inline > li:nth-last-of-type(2),
+        #ts13:checked ~ ul.inline > li:only-of-type,
+        #ts14:checked ~ ul.inline > li:only-child,
+        #ts15:checked ~ ul.inline > li:root {
+            background-color: red;
+        }
+
+        /*supplement example for :first-of-type and :first-child*/
+        #ts16:checked ~ div.content p:first-of-type,
+        #ts17:checked ~ div.content p:first-child {
+            color: red;
+        }
+
+        div.code, div.content {
+            float: left;
+            width: 50%;
+        }
+
+        pre {
+            padding: 10px;
+            border-left: 10px solid green;
+            background-color: black;
+            color: chartreuse;
+            text-align: left;
+            font-size: 10px;
+            white-space: pre-wrap;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .main-warp {
+            display: table;
+            height: 500px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .wrap {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .wrap input {
+            display: none;
+        }
+
+        .wrap input + label {
+            display: inline-block;
+            padding: 6px 10px;
+            margin: 4px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: #0D3349;
+            border-radius: 4px;
+        }
+
+        .wrap input:checked + label {
+            color: #0D3349;
+            background-color: #bbbbbb;
+        }
+
+        .wrap > ul {
+            margin-top: 20px;
+        }
+
+        table.w3-table-all {
+            margin: 20px 0;
+        }
+
+        table.w3-table-all tr th, td {
+            padding: 10px;
+        }
+
+        table.w3-table-all thead tr {
+            border-bottom: 2px solid black;
+        }
+
+        table.w3-table-all tbody tr {
+            border-bottom: 1px solid grey;
+        }
+
+        table.w3-table-all tbody tr:nth-child(2n) {
+            border-bottom: 1px solid grey;
+            background-color: #EEEEEE;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main-warp">
+    <div class="wrap">
+        <h1>下面我们来研究下css3伪类</h1>
+
+        <p>以下内容在safari9下没有效果，原因不明，建议用chrome浏览器打开</p>
+
+        <h2>以下伪类选择器均作用在li上（圆点）</h2>
+        <input type="radio" name="tab" id="ts1">
+        <label for="ts1">:first-of-type</label>
+        <input type="radio" name="tab" id="ts2">
+        <label for="ts2">:last-of-type</label>
+        <input type="radio" name="tab" id="ts3">
+        <label for="ts3">:first-child</label>
+        <input type="radio" name="tab" id="ts4">
+        <label for="ts4">:last-child</label>
+        <input type="radio" name="tab" id="ts5">
+        <label for="ts5">:empty</label>
+        <input type="radio" name="tab" id="ts6">
+        <label for="ts6">:not(:first-of-child)</label>
+        <input type="radio" name="tab" id="ts7">
+        <label for="ts7">:nth-child(2)</label>
+        <input type="radio" name="tab" id="ts8">
+        <label for="ts8">:nth-child(2n)</label>
+        <input type="radio" name="tab" id="ts9">
+        <label for="ts9">:nth-last-child(2)</label>
+        <input type="radio" name="tab" id="ts10">
+        <label for="ts10">:nth-of-type(2)</label>
+        <input type="radio" name="tab" id="ts11">
+        <label for="ts11">:nth-of-type(2n)</label>
+        <input type="radio" name="tab" id="ts12">
+        <label for="ts12">:nth-last-of-type(2)</label>
+        <input type="radio" name="tab" id="ts13">
+        <label for="ts13">:only-of-type</label>
+        <input type="radio" name="tab" id="ts14">
+        <label for="ts14">:only-child</label>
+        <input type="radio" name="tab" id="ts15">
+        <label for="ts15">:root</label>
+        <ul class="inline">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <section>
+            <ul>
+                <li>
+                    <small>li:only-of-type和li:only-child分别表示，只有li标签的父节点下的所有li节点、只有一个li节点的父节点下的这个li节点</small>
+                </li>
+                <li>
+                    <small>:root选择器直接选择document的根节点，也就是html，所以根据css不可回溯的特点，:root选择器只能独立使用。</small>
+                </li>
+            </ul>
+        </section>
+
+        <hr>
+        <h2>对于first-child和first-of-type的补充例子</h2>
+        <input type="radio" name="tab" id="ts16">
+        <label for="ts16">p:first-of-type</label>
+        <input type="radio" name="tab" id="ts17">
+        <label for="ts17">p:first-child</label>
+
+        <div class="code">
+            <pre>&lt;div class="content"&gt;
+    &lt;b&gt;This is a &lt;i&gt;, the first child of its parent (body).&lt;/b&gt;
+    &lt;p&gt;This paragraph is the first of type p of its parent (body).&lt;/p&gt;
+
+    &lt;h1&gt;Welcome to My Homepage&lt;/h1&gt;
+    &lt;p&gt;This paragraph is not the first child of its parent.&lt;/p&gt;
+
+    &lt;div&gt;
+        &lt;p&gt;This paragraph is the first child of its parent (div).&lt;/p&gt;
+        &lt;p&gt;This paragraph is not the first child of its parent.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+        <div class="content">
+            <i>This is a &lt;i&gt;, the first child of its parent (body).</i>
+
+            <p>This paragraph is the first of type p of its parent (body).</p>
+
+            <h1>Welcome to My Homepage</h1>
+
+            <p>This paragraph is not the first child of its parent.</p>
+
+            <div>
+                <p>This paragraph is the first child of its parent (div).</p>
+
+                <p>This paragraph is not the first child of its parent.</p>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <hr>
+        <h2>w3c伪类标准解释，链接需翻墙</h2>
+        <table class="w3-table-all">
+            <thead>
+            <tr>
+                <th style="width:20%">Selector</th>
+                <th style="width:20%">Example</th>
+                <th>Example description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_active.asp" target="_blank" rel="external">:active</a></td>
+                <td>a:active</td>
+                <td>Selects the active link</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_checked.asp" target="_blank" rel="external">:checked</a></td>
+                <td>input:checked</td>
+                <td>Selects every checked &lt;input&gt; element</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_disabled.asp" target="_blank" rel="external">:disabled</a></td>
+                <td>input:disabled</td>
+                <td>Selects every disabled &lt;input&gt; element</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_empty.asp" target="_blank" rel="external">:empty</a></td>
+                <td>p:empty</td>
+                <td>Selects every &lt;p&gt; element that has no children</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_enabled.asp" target="_blank" rel="external">:enabled</a></td>
+                <td>input:enabled</td>
+                <td>Selects every enabled &lt;input&gt; element</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_firstchild.asp" target="_blank" rel="external">:first-child</a></td>
+                <td>p:first-child</td>
+                <td>Selects every &lt;p&gt; elements that is the first child of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_first-of-type.asp" target="_blank" rel="external">:first-of-type</a></td>
+                <td>p:first-of-type</td>
+                <td>Selects every &lt;p&gt; element that is the first &lt;p&gt; element of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_focus.asp" target="_blank" rel="external">:focus</a></td>
+                <td>input:focus</td>
+                <td>Selects the &lt;input&gt; element that has focus</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_hover.asp" target="_blank" rel="external">:hover</a></td>
+                <td>a:hover</td>
+                <td>Selects links on mouse over</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_in-range.asp" target="_blank" rel="external">:in-range</a></td>
+                <td>input:in-range</td>
+                <td>Selects &lt;input&gt; elements with a value within a specified range</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_invalid.asp" target="_blank" rel="external">:invalid</a></td>
+                <td>input:invalid</td>
+                <td>Selects all &lt;input&gt; elements with an invalid value</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_lang.asp" target="_blank" rel="external">:lang(<i>language</i>)</a></td>
+                <td>p:lang(it)</td>
+                <td>Selects every &lt;p&gt; element with a lang attribute value starting
+                    with "it"
+                </td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_last-child.asp" target="_blank" rel="external">:last-child</a></td>
+                <td>p:last-child</td>
+                <td>Selects every &lt;p&gt; elements that is the last child of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_last-of-type.asp" target="_blank" rel="external">:last-of-type</a></td>
+                <td>p:last-of-type</td>
+                <td>Selects every &lt;p&gt; element that is the last &lt;p&gt; element of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_link.asp" target="_blank" rel="external">:link</a></td>
+                <td>a:link</td>
+                <td>Selects all unvisited links</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_not.asp" target="_blank" rel="external">:not(selector)</a></td>
+                <td>:not(p)</td>
+                <td>Selects every element that is not a &lt;p&gt; element</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_nth-child.asp" target="_blank" rel="external">:nth-child(n)</a></td>
+                <td>p:nth-child(2)</td>
+                <td>Selects every &lt;p&gt; element that is the second child of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_nth-last-child.asp" target="_blank" rel="external">:nth-last-child(n)</a></td>
+                <td>p:nth-last-child(2)</td>
+                <td>Selects every &lt;p&gt; element that is the second child of its parent, counting from the last
+                    child
+                </td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_nth-last-of-type.asp" target="_blank" rel="external">:nth-last-of-type(n)</a></td>
+                <td>p:nth-last-of-type(2)</td>
+                <td>Selects every &lt;p&gt; element that is the second &lt;p&gt; element of its parent, counting from
+                    the last child
+                </td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_nth-of-type.asp" target="_blank" rel="external">:nth-of-type(n)</a></td>
+                <td>p:nth-of-type(2)</td>
+                <td>Selects every &lt;p&gt; element that is the second &lt;p&gt; element of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_only-of-type.asp" target="_blank" rel="external">:only-of-type</a></td>
+                <td>p:only-of-type</td>
+                <td>Selects every &lt;p&gt; element that is the only &lt;p&gt; element of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_only-child.asp" target="_blank" rel="external">:only-child</a></td>
+                <td>p:only-child</td>
+                <td>Selects every &lt;p&gt; element that is the only child of its parent</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_optional.asp" target="_blank" rel="external">:optional</a></td>
+                <td>input:optional</td>
+                <td>Selects &lt;input&gt; elements with no "required" attribute</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_out-of-range.asp" target="_blank" rel="external">:out-of-range</a></td>
+                <td>input:out-of-range</td>
+                <td>Selects &lt;input&gt; elements with a value outside a specified range</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_read-only.asp" target="_blank" rel="external">:read-only</a></td>
+                <td>input:read-only</td>
+                <td>Selects &lt;input&gt; elements with a "readonly" attribute specified</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_read-write.asp" target="_blank" rel="external">:read-write</a></td>
+                <td>input:read-write</td>
+                <td>Selects &lt;input&gt; elements with no "readonly" attribute</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_required.asp" target="_blank" rel="external">:required</a></td>
+                <td>input:required</td>
+                <td>Selects &lt;input&gt; elements with a "required" attribute specified</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_root.asp" target="_blank" rel="external">:root</a></td>
+                <td>root</td>
+                <td>Selects the document's root element</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_target.asp" target="_blank" rel="external">:target</a></td>
+                <td>#news:target</td>
+                <td>Selects the current active #news element (clicked on a URL containing that anchor name)</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_valid.asp" target="_blank" rel="external">:valid</a></td>
+                <td>input:valid</td>
+                <td>Selects all &lt;input&gt; elements with a valid value</td>
+            </tr>
+            <tr>
+                <td><a href="http://www.w3schools.com/cssref/sel_visited.asp" target="_blank" rel="external">:visited</a></td>
+                <td>a:visited</td>
+                <td>Selects all visited links</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/content-css/Css3-pseudo-classes.html" data-id="cik4ygpka000etnupqhjjpdgk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/其它/" style="font-size: 13.33px;">其它</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/图像处理/" style="font-size: 10px;">图像处理</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/02/02/reset-mysql-default-password/">修改最新版本Mysql默认密码(v5.7.10)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/02/sublime-plugin-development/">如何开发Sublime插件</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/25/javascript-this/">对于javascript关键字this的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/23/FE-knowledge-entrence/">前端知识大汇总</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/07/追赶时间的脚步/">追赶时间的脚步</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Wang Chao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

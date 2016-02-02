@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>修改最新版本Mysql默认密码(v5.7.10) | Raphael Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MySql版本: v5.7.10
+Step1
+安装mysql，加入PATH。
+1&amp;gt; vim ~/.zshrc
+修改如下内容：注意路径中间用:隔开
+export PATH=&amp;quot;/usr/local/other_path:/usr/local/mysql/bin/:$PATH&amp;quot;
+Step2
+在系统偏好，最下面的mysql中点击Stop MySql Server按钮，关闭mysq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修改最新版本Mysql默认密码(v5.7.10)">
+<meta property="og:url" content="http://yoursite.com/2016/02/02/reset-mysql-default-password/index.html">
+<meta property="og:site_name" content="Raphael Wang">
+<meta property="og:description" content="MySql版本: v5.7.10
+Step1
+安装mysql，加入PATH。
+1&amp;gt; vim ~/.zshrc
+修改如下内容：注意路径中间用:隔开
+export PATH=&amp;quot;/usr/local/other_path:/usr/local/mysql/bin/:$PATH&amp;quot;
+Step2
+在系统偏好，最下面的mysql中点击Stop MySql Server按钮，关闭mysq">
+<meta property="og:updated_time" content="2016-02-02T05:21:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="修改最新版本Mysql默认密码(v5.7.10)">
+<meta name="twitter:description" content="MySql版本: v5.7.10
+Step1
+安装mysql，加入PATH。
+1&amp;gt; vim ~/.zshrc
+修改如下内容：注意路径中间用:隔开
+export PATH=&amp;quot;/usr/local/other_path:/usr/local/mysql/bin/:$PATH&amp;quot;
+Step2
+在系统偏好，最下面的mysql中点击Stop MySql Server按钮，关闭mysq">
+  
+    <link rel="alternative" href="/atom.xml" title="Raphael Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Raphael Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">三生万物</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-reset-mysql-default-password" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/02/reset-mysql-default-password/" class="article-date">
+  <time datetime="2016-02-02T05:18:17.000Z" itemprop="datePublished">2月 2 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      修改最新版本Mysql默认密码(v5.7.10)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MySql版本: v5.7.10</p>
+<h2>Step1</h2>
+<p>安装mysql，加入PATH。</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; vim ~/.zshrc</span><br></pre></td></tr></table></figure></p>
+<p>修改如下内容：注意路径中间用<code>:</code>隔开
+export PATH=&quot;/usr/local/other_path:/usr/local/mysql/bin/:$PATH&quot;</p>
+<h2>Step2</h2>
+<p>在系统偏好，最下面的mysql中点击<code>Stop MySql Server</code>按钮，关闭mysql后台进程</p>
+<h2>Step3</h2>
+<p>跳过mysql权限认证机制</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo mysqld_safe --user=mysql --skip-grant-tables --skip-networking</span><br></pre></td></tr></table></figure></p>
+<p>启动了mysql的安全模式，可以打开新的命令行窗口进入mysql</p>
+<h2>Step4</h2>
+<p>登录mysql，修改密码</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql</span><br><span class="line">&gt; use user;</span><br><span class="line">&gt; update user <span class="built_in">set</span> authentication_string=password(<span class="string">'123456'</span>) <span class="built_in">where</span> user=<span class="string">'root'</span>;</span><br><span class="line">&gt; flush privileges;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p>注：mysql5.7以后用户的password字段名变成了authentication_string，这点很坑。</p>
+<h2>Step5</h2>
+<p>关闭相关进程，重新登陆mysql</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; ps -A | grep mysql</span><br><span class="line"><span class="number">2004</span> ttys000    <span class="number">0</span>:<span class="number">00.00</span> grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn mysql</span><br><span class="line"><span class="number">1733</span> ttys001    <span class="number">0</span>:<span class="number">00.02</span> sudo mysqld_safe --user=mysql --skip-grant-tables --skip-networking</span><br><span class="line"><span class="number">1735</span> ttys001    <span class="number">0</span>:<span class="number">00.02</span> /bin/sh /usr/<span class="built_in">local</span>/mysql/bin//mysqld_safe --user=mysql --skip-grant-tables --skip-networking</span><br><span class="line"><span class="number">1846</span> ttys001    <span class="number">0</span>:<span class="number">00.37</span> /usr/<span class="built_in">local</span>/mysql/bin/mysqld --basedir=/usr/<span class="built_in">local</span>/mysql --datadir=/usr/<span class="built_in">local</span>/mysql/data --plugin-dir=/usr/<span class="built_in">local</span>/mysql/lib/plugin --user=mysql --skip-grant-tables --skip-networking --log-error=/usr/<span class="built_in">local</span>/mysql/data/wangchaoyouzancomdeMacBook-Pro.local.err --pid-file=/usr/<span class="built_in">local</span>/mysql/data/wangchaoyouzancomdeMacBook-Pro.local.pid</span><br><span class="line">&gt; sudo <span class="built_in">kill</span> -<span class="number">9</span> <span class="number">2004</span> <span class="number">1733</span> <span class="number">1735</span> <span class="number">1846</span></span><br></pre></td></tr></table></figure></p>
+<p>重新在系统偏好的Mysql中启动mysql</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line"><span class="number">123456</span></span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is <span class="number">39</span></span><br><span class="line">Server version: <span class="number">5.7</span>.<span class="number">10</span></span><br><span class="line"></span><br><span class="line">Copyright (c) <span class="number">2000</span>, <span class="number">2015</span>, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></p>
+<h2>Step6</h2>
+<p>客户端用root用户登录失败提示如下内容：</p>
+<blockquote>
+<p>Your password has expired. To log in you must change it using a client that supports expired passwords.
+-- Navicat Premium for MySql</p>
+</blockquote>
+<blockquote>
+<p>You must reset your password using ALTER USER statement before executing this statement.
+-- MySql Workbentch</p>
+</blockquote>
+<p>其中workbentch会自动跳出新窗口让你重置密码。
+Navicat不会弹出窗口就用命令行的方式重置：</p>
+<p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql&gt; alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'admin'</span> password expire never;</span><br><span class="line">mysql&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="http://dev.mysql.com/doc/refman/5.7/en/alter-user.html" target="_blank" rel="external">官方Alter User文档</a></p>
+<p>密码的过期策略有四种选项</p>
+<ol>
+<li>EXPIRE 过期</li>
+<li>EXPIRE DEFAULT 过期</li>
+<li>EXPIRE NEVER 永不过期</li>
+<li>EXPIRE INTERVAL N DAY n天后过期</li>
+</ol>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">password_option: &#123;</span><br><span class="line">	PASSWORD EXPIRE</span><br><span class="line">	| PASSWORD EXPIRE DEFAULT</span><br><span class="line">	| PASSWORD EXPIRE NEVER</span><br><span class="line">	| PASSWORD EXPIRE INTERVAL N DAY</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在navicat中修改连接密码，即可连接成功。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/02/reset-mysql-default-password/" data-id="cik4ygpku000vtnupz85spl23" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mysql/">Mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/其它/">其它</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/02/02/sublime-plugin-development/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">如何开发Sublime插件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/其它/" style="font-size: 13.33px;">其它</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/图像处理/" style="font-size: 10px;">图像处理</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/02/02/reset-mysql-default-password/">修改最新版本Mysql默认密码(v5.7.10)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/02/sublime-plugin-development/">如何开发Sublime插件</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/25/javascript-this/">对于javascript关键字this的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/23/FE-knowledge-entrence/">前端知识大汇总</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/07/追赶时间的脚步/">追赶时间的脚步</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Wang Chao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Raphael Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    
+    元素居中
+    
+    
+        #block-center {
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            backgr">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Raphael Wang">
+<meta property="og:url" content="http://yoursite.com/content-css/Center.html">
+<meta property="og:site_name" content="Raphael Wang">
+<meta property="og:description" content="&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    
+    元素居中
+    
+    
+        #block-center {
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            backgr">
+<meta property="og:updated_time" content="2016-01-25T15:14:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Raphael Wang">
+<meta name="twitter:description" content="&amp;lt;!DOCTYPE html&amp;gt;
+
+
+    
+    元素居中
+    
+    
+        #block-center {
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            backgr">
+  
+    <link rel="alternative" href="/atom.xml" title="Raphael Wang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Raphael Wang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">三生万物</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/content-css/Center.html" class="article-date">
+  <time datetime="2016-01-25T15:14:36.000Z" itemprop="datePublished">1月 25 2016</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>元素居中</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        #block-center {
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #00ffff;
+        }
+
+        #inline-center {
+            /*span就是行级元素，这里可以不用声明*/
+            display: inline;
+            color: red;
+            font-weight: bold;
+        }
+
+        #relative-block-center {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            /*margin一定要设置成宽的一半*/
+            margin: 0 0 0 -100px;
+            left: 50%;
+            background-color: #00ffff;
+        }
+
+        #absolute-block-center {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            background-color: #00ffff;
+            opacity: 1;
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+        }
+
+        #absolute-block-center:hover {
+            opacity: 0;
+        }
+
+        .wrap-vertical {
+            height: 200px;
+        }
+
+        #vertical-center {
+            background: #ffdb4c;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /*表格布局法*/
+        .display-table {
+            display: table;
+        }
+
+        .display-table-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .wrap-table-cell {
+            width: 100%;
+            height: 200px;
+        }
+
+        #table-cell {
+            background: #ffdb4c;
+            width: 100px;
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>各种居中的实现</h1>
+
+    <p>这里我们要讨论各种情况的居中，包括水平居中和竖直居中。包括块级元素和行级元素的居中。浮动元素的居中。</p>
+
+    <h2>居中一个div元素和其中的内容</h2>
+    <pre>
+#block-center {
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #00ffff;
+}
+    </pre>
+    <div class="panel">
+        <div id="block-center" class="text-center text-vertical-center">
+            I'm lovely block! <br>User text-center to make content center align
+        </div>
+    </div>
+    <small>* 以上实现了block和inline元素的水平居中，inline-block元素本身就是inline的扩展，所以用text-align: center;使其水平居中</small>
+    <small>** block元素居中一定要设置宽度（绝对相对均可），否则会撑满屏幕</small>
+
+    <h2>居中inline元素</h2>
+    <pre>
+#inline-center {
+    /*span就是行级元素，这里可以不用声明*/
+    display: inline;
+    color: red;
+    font-weight: bold;
+}
+    </pre>
+    <div class="panel text-center">
+        <span id="inline-center">This is a span element</span>
+        <br>
+    </div>
+    <small>* 以上是一个span元素放在一个div中，所以span作为div的内容，需要经text-center的class放在div里，同上例一样</small>
+
+    <h2>让一个position:relative的元素居中</h2>
+<pre>
+#relative-block-center {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    /*margin一定要设置成宽的一半*/
+    margin: 0 0 0 -100px;
+    left: 50%;
+    background-color: #00ffff;
+}
+</pre>
+    <div class="panel">
+        <div id="relative-block-center" class="text-center">
+            I'm a relative-block element.
+        </div>
+    </div>
+    <small>* 相对布局的div元素，需要手动设置margin，因为left:50%会使该元素偏离中轴线一半的宽度，所以需要手动调整</small>
+
+    <h2>让一个position:absolute的元素居中</h2>
+    <pre>
+#absolute-block-center {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    background-color: #00ffff;
+}
+    </pre>
+    <!-- absolute的外层元素需要设置为relative布局，否则absolute元素会跑到根元素的布局上-->
+    <div class="panel wrap-absolute" style="position: relative;">
+        <div id="absolute-block-center" class="text-center">
+            I'm a absolute-block element. <br>
+            Mouse on me, disappear
+        </div>
+    </div>
+    <small>* 这里的外层元素没有包住内层元素是正常的，因为absolute会脱离原来的布局流。但是居中的表现是正常的。margin, left, right缺一不可</small>
+
+    <article>
+        <h3>补充：position的值以及作用</h3>
+        <dl>
+            <dt>static</dt>
+            <dd>默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 <strong class="notice">z-index</strong> 声明）。</dd>
+            <dt>relative</dt>
+            <dd>生成相对定位的元素，相对于其正常位置进行定位。因此，"left:20" 会向元素的 LEFT 位置添加 20 像素。</dd>
+            <dt>absolute</dt>
+            <dd>生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。</dd>
+            <dt>fixed</dt>
+            <dd>生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。</dd>
+            <dt>inherit</dt>
+            <dd>规定应该从父元素继承 position 属性的值。</dd>
+        </dl>
+    </article>
+
+    <h2>垂直居中——1</h2>
+<pre>
+.wrap-vertical {
+    height: 500px;
+}
+#vertical-center {
+    background: #ffdb4c;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+</pre>
+    <div class="panel wrap-vertical">
+        <div id="vertical-center" class="text-center">
+            I'm a block, I want to vertical center
+        </div>
+    </div>
+    <small>* 这种方法一定要配合top: 50%使用</small>
+    <br>
+    <small>** 代码中的transform是css3的特性，表示向上平移当前元素高度的50%，也可以用于水平居中，类似于relative block的水平居中</small>
+
+    <h2>垂直居中——2</h2>
+<pre>
+/*表格布局法*/
+.display-table {
+    display: table;
+}
+
+.display-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.wrap-table-cell {
+    width: 100%;
+    height: 200px;
+}
+
+#table-cell {
+    background: #ffdb4c;
+    width: 100px;
+    height: 100px;
+}
+</pre>
+    <div class="panel">
+        <div class="display-table wrap-table-cell">
+            <div class="display-table-cell">
+                <div id="table-cell" class="center-block text-center">
+                    I'm a block display in a table-cell
+                </div>
+            </div>
+        </div>
+    </div>
+    <small>* 这种方法可以兼容到IE8，原理就是利用table的布局，利用display: table;和display: table-cell;将核心元素的外两层元素变成table和td，这样核心元素就变成了内容，垂直方向上可以很神奇的用vertical-align: middle;来进行居中。但水平居中还是跟核心元素的块／行有关。</small>
+</div>
+</body>
+</html>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/content-css/Center.html" data-id="cik4ygpki000jtnups8q7nq70" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql/">Mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sublime/">Sublime</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/canvas/">canvas</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其它/">其它</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图像处理/">图像处理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Sublime/" style="font-size: 10px;">Sublime</a> <a href="/tags/canvas/" style="font-size: 16.67px;">canvas</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/其它/" style="font-size: 13.33px;">其它</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/图像处理/" style="font-size: 10px;">图像处理</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/02/02/reset-mysql-default-password/">修改最新版本Mysql默认密码(v5.7.10)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/02/02/sublime-plugin-development/">如何开发Sublime插件</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/25/javascript-this/">对于javascript关键字this的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2015/11/23/FE-knowledge-entrence/">前端知识大汇总</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/07/追赶时间的脚步/">追赶时间的脚步</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Wang Chao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
